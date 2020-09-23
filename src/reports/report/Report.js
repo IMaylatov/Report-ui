@@ -12,6 +12,7 @@ import { addReport, updateReport, runReport } from '../ReportAPI';
 import { useFormik } from 'formik';
 import { useDialog } from '../../common';
 import InputParameters from '../../parameters/InputParameters';
+import download from 'downloadjs';
 
 export default function Report(props) {  
   const formik = useFormik({
@@ -37,9 +38,8 @@ export default function Report(props) {
       parameters
     };
     runReport(report)
-      .then(response => {
-        console.log(response);
-      })
+      .then(response => response.blob())
+      .then((blob) => download(blob, `${report.name}.xlsx`));
   } 
 
   const handleInputParameters = (parameters) => {

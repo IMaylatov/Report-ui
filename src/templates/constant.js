@@ -1,1 +1,1 @@
-export const TEMPLATE_TYPE_CLOSEDXML = 'closedXml';
+export const TEMPLATE_TYPE_CLOSEDXML = 'ClosedXml';
