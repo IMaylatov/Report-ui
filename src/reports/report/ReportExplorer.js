@@ -4,8 +4,8 @@ import AddDataSource from '../../dataSources/AddDataSource';
 import DataSource from '../../dataSources/DataSource';
 import AddDataSet from '../../dataSets/AddDataSet';
 import DataSet from '../../dataSets/DataSet';
-import AddParameter from '../../parameters/AddParameter';
-import Parameter from '../../parameters/Parameter';
+import AddVariable from '../../variables/AddVariable';
+import Variable from '../../variables/Variable';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -63,14 +63,14 @@ export default function ReportExplorer(props) {
     onDelete: (value) => handleItemDelete('dataSets', value)
   });
   
-  const [handleParameterAdd, handleParameterEdit, handleParameterDelete] = useOperation({
+  const [handleVariableAdd, handleVariableEdit, handleVariableDelete] = useOperation({
     setOpenDialog,
     setDialogContent,
-    addForm: (formProps) => <AddParameter report={props.report} {...formProps}/>,
-    editForm: (formProps) => <Parameter report={props.report} {...formProps}/>,
-    onAdd: (item) => handleItemAdd('parameters', item),
-    onEdit: (preValue, value) => handleItemEdit('parameters', preValue, value),
-    onDelete: (value) => handleItemDelete('parameters', value)
+    addForm: (formProps) => <AddVariable report={props.report} {...formProps}/>,
+    editForm: (formProps) => <Variable report={props.report} {...formProps}/>,
+    onAdd: (item) => handleItemAdd('variables', item),
+    onEdit: (preValue, value) => handleItemEdit('variables', preValue, value),
+    onDelete: (value) => handleItemDelete('variables', value)
   });
 
   const addItemMenu = useMenu({     
@@ -81,7 +81,7 @@ export default function ReportExplorer(props) {
     items: [
       { label: 'Источник данных', onClick: handleDataSourceAdd },
       { label: 'Набор данных', onClick: handleDataSetAdd },
-      { label: 'Параметр', onClick: handleParameterAdd },
+      { label: 'Параметр', onClick: handleVariableAdd },
     ]
   });
 
@@ -114,15 +114,15 @@ export default function ReportExplorer(props) {
         })
       },
       {
-        nodeId: 'parameters',
+        nodeId: 'variables',
         label: 'Параметры',
-        children: props.report.parameters.map(s =>  {
+        children: props.report.variables.map(s =>  {
           return {
             nodeId: s.name,
             label: s.name,
             value: s,
-            onEdit: handleParameterEdit,
-            onDelete: handleParameterDelete
+            onEdit: handleVariableEdit,
+            onDelete: handleVariableDelete
           }
         })
       }

@@ -3,17 +3,17 @@ import { Button } from '@material-ui/core';
 import CloseDialogTitle from '../common/CloseDialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import InputParameter from './InputParameter';
+import InputVariable from './InputVariable';
 import { useFormik } from 'formik';
 
-export default function InputParameters(props) {
+export default function InputVariables(props) {
   const formik = useFormik({
-    initialValues: props.parameters.map(parameter => {
-                      return { ...parameter, value: '' }
+    initialValues: props.variables.map(variable => {
+                      return { ...variable, value: '' }
                     }),
     onSubmit: values => {
-      props.onOk(values.map(parameter => {
-        return { name: parameter.name, value: parameter.value };
+      props.onOk(values.map(variable => {
+        return { name: variable.name, value: variable.value };
       }));
     },
   });
@@ -22,10 +22,10 @@ export default function InputParameters(props) {
     <form onSubmit={formik.handleSubmit}>
       <CloseDialogTitle onClose={props.onCancel}>Укажите параметры</CloseDialogTitle>
       <DialogContent>
-        {formik.values.map((parameter, i) => {
+        {formik.values.map((variable, i) => {
           return (
             <div key={i}>
-              <InputParameter parameter={parameter} onChange={(param) => formik.setFieldValue(`[${i}]`, param)}
+              <InputVariable variable={variable} onChange={(param) => formik.setFieldValue(`[${i}]`, param)}
                 name={`[${i}]`}/>
             </div>
           );

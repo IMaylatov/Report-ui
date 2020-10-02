@@ -1,21 +1,17 @@
 import React from 'react';
-import { Typography, TextField } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import ClosedXmlTemplate from './ClosedXmlTemplate';
-import * as constant from './constant';
+import * as constant from '../reports/constant';
 
 export default function Template(props) {
-  const handleNameChange = (e) => {
-    props.onChange({ ...props.value, name: e.target.value });
-  }
-
-  const handleDataChange = (data) => {
-    props.onChange({ ...props.value, data });
+  const handleValueChange = (template) => {
+    props.onChange(template);
   }
 
   let form;
-  switch(props.value.type) {
-    case constant.TEMPLATE_TYPE_CLOSEDXML:
-      form = <ClosedXmlTemplate value={props.value.data} onChange={handleDataChange}/>
+  switch(props.report.type) {
+    case constant.REPORT_TYPE_CLOSEDXML:
+      form = <ClosedXmlTemplate report={props.report} template={props.template} onChange={handleValueChange}/>
       break;
     default:
       break;
@@ -26,8 +22,6 @@ export default function Template(props) {
       <Typography variant="h6">
         Шаблон
       </Typography>
-      <TextField value={props.value.name} onChange={handleNameChange} 
-                    required label='Наименование'/>
       {form}
     </React.Fragment>
   )

@@ -10,10 +10,14 @@ import { Link } from "react-router-dom";
 
 export default function Reports() {
   const [reports, setReports] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
     getReports()
-      .then(response => setReports(response));
+      .then(res => {
+        setReports(res);
+        setIsLoaded(true);
+      });
   }, []);
 
   return (
@@ -29,7 +33,10 @@ export default function Reports() {
 
       <Button component={Link} to='/reports/add' variant="contained" color='primary'>Добавить отчет</Button>
 
-      <ReportTable reports={reports}/>
+      {isLoaded &&
+        <ReportTable reports={reports}/>
+      }
+      
     </React.Fragment>
   );
 }

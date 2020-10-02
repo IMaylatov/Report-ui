@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
 const validate = (report, preValue, values) => {
   const errors = {};
 
-  if (report.parameters.some(d => d !== preValue && d.name === values.name)) {
+  if (report.variables.some(d => d !== preValue && d.name === values.name)) {
     errors.name = 'Параметр с таким именем уже существует';
   }
 
   return errors;
 }
 
-export default function Parameter(props) {
+export default function Variable(props) {
   const classes = useStyles();
 
   const formik = useFormik({
@@ -73,7 +73,7 @@ export default function Parameter(props) {
               name='type'
               className={classes.textField}
             >
-              {constants.PARAMTER_TYPES.map((type) => (
+              {constants.VARIABLE_TYPES.map((type) => (
                 <MenuItem key={type} value={type}>
                   {type}
                 </MenuItem>
@@ -91,7 +91,7 @@ export default function Parameter(props) {
               name='kind'
               className={classes.textField}
             >
-              {constants.PARAMTER_KINDS.map((kind) => (
+              {constants.VARIABLE_KINDS.map((kind) => (
                 <MenuItem key={kind.name} value={kind.name}>
                   {kind.label}
                 </MenuItem>

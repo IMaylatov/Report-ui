@@ -1,0 +1,1 @@
+export const REPORT_TYPE_CLOSEDXML = 'ClosedXml';

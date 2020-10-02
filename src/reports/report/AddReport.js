@@ -1,24 +1,23 @@
 import React from 'react';
 import Report from './Report';
-import * as constants from '../../templates/constant';
+import * as constants from '../constant';
 
 export default function AddReport() {
-  const value = {
+  const report = {
     id: 0,
     name: 'Новый отчет',
+    type: constants.REPORT_TYPE_CLOSEDXML,
     dataSources: [],
     dataSets: [],
-    parameters: [],
-    template: {
-      name: '',
-      type: constants.TEMPLATE_TYPE_CLOSEDXML,
-      data: {
-        file: ''
-      }
-    }
+    variables: []
+  };
+
+  const template = {
+    id: 0,
+    data: null
   };
 
   return (
-    <Report value={value}/>
+    <Report report={report} template={template}/>
   );
 }

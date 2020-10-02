@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import ReportExplorer from './ReportExplorer';
 import Template from '../../templates/Template';
@@ -11,18 +11,30 @@ import { Link } from "react-router-dom";
 import { addReport, updateReport, runReport } from '../ReportAPI';
 import { useFormik } from 'formik';
 import { useDialog } from '../../common';
-import InputParameters from '../../parameters/InputParameters';
+import InputVariables from '../../variables/InputVariables';
 import download from 'downloadjs';
+import { addReportTemplate, updateReportTemplate, deleteReportTemplate } from '../../templates/TemplateAPI';
 
 export default function Report(props) {  
+  const [template, setTemplate] = useState(props.template);
+
   const formik = useFormik({
-    initialValues: props.value,
+    initialValues: props.report,
     onSubmit: values => {
-      if (values.id === 0) {
-        addReport(values);
-      } else {
-        updateReport(values.id, values);
-      }
+      let reportOperation = values.id === 0
+        ? addReport(values)
+        : updateReport(values.id, values);
+      reportOperation.then(report => {
+        if (template.id === 0) {
+          addReportTemplate(report.id, template.data);
+        } else {          
+          if (template.data !== null) {
+            updateReportTemplate(report.id, template.id, template.data);
+          } else {
+            deleteReportTemplate(report.id, template.id);
+          }
+        }
+      })
     },
   });
 
@@ -32,26 +44,26 @@ export default function Report(props) {
     formik.setValues(value);
   }
 
-  const sendRunReport = (parameters) => {
+  const sendRunReport = (variables) => {
     const report = {
       ...formik.values,
-      parameters
+      variables
     };
-    runReport(report)
+    runReport(report, template)
       .then(response => response.blob())
       .then((blob) => download(blob, `${report.name}.xlsx`));
   } 
 
-  const handleInputParameters = (parameters) => {
+  const handleInputVariables = (variables) => {
     setOpenDialog(false);
-    sendRunReport(parameters);
+    sendRunReport(variables);
   }
 
   const handleRunClick = (e) => {
-    if (formik.values.parameters.length > 0) {
-      setDialogContent(<InputParameters 
-          parameters={formik.values.parameters}
-          onOk={handleInputParameters}
+    if (formik.values.variables.length > 0) {
+      setDialogContent(<InputVariables 
+        variables={formik.values.variables}
+          onOk={handleInputVariables}
           onCancel={(e) => setOpenDialog(false)}/>);
       setOpenDialog(true);
     } else {      
@@ -90,9 +102,8 @@ export default function Report(props) {
         </Grid>
         
         <Grid item xs={9}>
-          <Template report={formik.values} value={formik.values.template} 
-            onChange={(template) => formik.setFieldValue('template', template)}
-            name='template'/>
+          <Template report={formik.values} template={template} 
+            onChange={(template) => setTemplate(template)}/>
         </Grid>
       </Grid>
 
