@@ -9,12 +9,13 @@ import { useFormik } from 'formik';
 export default function InputVariables(props) {
   const formik = useFormik({
     initialValues: props.variables.map(variable => {
+                      if (variable.type === 'period') {
+                        return { ...variable, value: { beginDate: '', endDate: '' } }
+                      }
                       return { ...variable, value: '' }
                     }),
     onSubmit: values => {
-      props.onOk(values.map(variable => {
-        return { name: variable.name, value: variable.value };
-      }));
+      props.onOk(values);
     },
   });
 
@@ -25,7 +26,7 @@ export default function InputVariables(props) {
         {formik.values.map((variable, i) => {
           return (
             <div key={i}>
-              <InputVariable variable={variable} onChange={(param) => formik.setFieldValue(`[${i}]`, param)}
+              <InputVariable report={props.report} variable={variable} onChange={(param) => formik.setFieldValue(`[${i}]`, param)}
                 name={`[${i}]`}/>
             </div>
           );

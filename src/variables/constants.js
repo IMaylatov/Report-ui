@@ -1,19 +1,13 @@
-export const VARIABLE_TYPE_INT = 'int';
-export const VARIABLE_TYPE_STRING = 'string';
-export const VARIABLE_TYPE_DATETIME = 'datetime';
-export const VARIABLE_TYPE_OBJECT = 'object';
+export const VARIABLE_TYPE_SELECT = { name: 'select', label: 'Список'};
+export const VARIABLE_TYPE_MULTIPLE_SELECT = { name: 'multipleSelect', label: 'Список с множественным выбором'};
+export const VARIABLE_TYPE_STRING = { name: 'string', label: 'Строка'};
+export const VARIABLE_TYPE_DATE = { name: 'date', label: 'Дата'};
+export const VARIABLE_TYPE_PERIOD = { name: 'period', label: 'Период'};
 
 export const VARIABLE_TYPES = [
-  VARIABLE_TYPE_INT,
+  VARIABLE_TYPE_SELECT,
+  VARIABLE_TYPE_MULTIPLE_SELECT,
   VARIABLE_TYPE_STRING,
-  VARIABLE_TYPE_DATETIME,
-  VARIABLE_TYPE_OBJECT
-]
-
-export const VARIABLE_KIND_VALUE = { name: 'value', label: 'Значение' };
-export const VARIABLE_KIND_RANGE = { name: 'range', label: 'Диапазон' };
-
-export const VARIABLE_KINDS = [
-  VARIABLE_KIND_VALUE,
-  VARIABLE_KIND_RANGE
+  VARIABLE_TYPE_DATE,
+  VARIABLE_TYPE_PERIOD
 ]

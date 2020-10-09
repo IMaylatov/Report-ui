@@ -11,6 +11,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import FormControl from '@material-ui/core/FormControl';
 import { useFormik } from 'formik';
 import * as constants from './constants';
+import SelectDataVariable from './SelectDataVariable';
+import MultipleSelectDataVariable from './MultipleSelectDataVariable';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -38,6 +40,38 @@ export default function Variable(props) {
       props.onSave(values);
     },
   });
+
+  let variableForm;
+  switch(formik.values.type) {
+    case constants.VARIABLE_TYPE_SELECT.name:
+      variableForm = <SelectDataVariable report={props.report} data={formik.values.data} onDataChange={(data) => formik.setFieldValue('data', data)} />
+      break;
+    case constants.VARIABLE_TYPE_MULTIPLE_SELECT.name:      
+      variableForm = <MultipleSelectDataVariable report={props.report} data={formik.values.data} onDataChange={(data) => formik.setFieldValue('data', data)} />      
+      break;
+    default:
+      break;
+  }
+
+  const handleTypeChange = (e) => {
+    const type = e.target.value;
+    formik.setFieldValue('type', type);
+    if (type === constants.VARIABLE_TYPE_SELECT.name || type === constants.VARIABLE_TYPE_MULTIPLE_SELECT.name) {
+      formik.setFieldValue('data', {
+        captionField: '',
+        keyField: '',
+        dataSet: {
+          type: 'SqlQuery',
+          data: {
+            dataSourceName: '',
+            query: ''
+          }
+        }
+      });
+    } else {
+      formik.setFieldValue('data', '');
+    }
+  }
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -69,35 +103,19 @@ export default function Variable(props) {
               label="Тип"
               required 
               value={formik.values.type}
-              onChange={formik.handleChange}
+              onChange={handleTypeChange}
               name='type'
               className={classes.textField}
             >
               {constants.VARIABLE_TYPES.map((type) => (
-                <MenuItem key={type} value={type}>
-                  {type}
+                <MenuItem key={type.name} value={type.name}>
+                  {type.label}
                 </MenuItem>
               ))}
             </TextField>
           </FormControl>
-
-          <FormControl>
-            <TextField
-              select
-              label="Вид"
-              required 
-              value={formik.values.kind}
-              onChange={formik.handleChange}
-              name='kind'
-              className={classes.textField}
-            >
-              {constants.VARIABLE_KINDS.map((kind) => (
-                <MenuItem key={kind.name} value={kind.name}>
-                  {kind.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
+          <br/>
+          {variableForm}
         </div>
       </DialogContent>
 

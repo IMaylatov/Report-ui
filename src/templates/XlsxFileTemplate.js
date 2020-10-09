@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import download from 'downloadjs';
 import Grid from '@material-ui/core/Grid';
 
-export default function ClosedXmlTemplate(props) {
+export default function XlsxFileTemplate(props) {
   const handleFileChange = (data) => {
     props.onChange({ ...props.template, data: data});
   };

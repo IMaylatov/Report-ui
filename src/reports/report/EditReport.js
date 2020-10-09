@@ -1,20 +1,22 @@
 import React, { useState, useEffect} from 'react';
-import Report from './Report';
+import ClosedXmlReport from './ClosedXmlReport';
+import MalibuReport from './MalibuReport';
 import { getReportById } from '../ReportAPI';
 import { useParams } from "react-router-dom";
 import { getReportTemplates, getReportTemplateDataById } from '../../templates/TemplateAPI';
+import * as constants from '../constant';
 
 export default function EditReport() {
   const [report, setReport] = useState(null);
   const [isLoadedReport, setIsLoadedReport] = useState(false);
   const [template, setTemplate] = useState(null);
-  const [isLoadedTemplate, setIsLoadedTemplate] = useState(false);
+  const [isLoadedTemplate, setIsLoadedTemplate] = useState(false);  
   const { reportId } = useParams();
 
   useEffect(() => {
     getReportById(reportId)
-      .then(res => {
-        setReport(res);
+      .then(report => {
+        setReport(report);
         setIsLoadedReport(true);
       });
 
@@ -40,10 +42,25 @@ export default function EditReport() {
       });
   }, [reportId]);
 
+  let reportForm;
+  if (isLoadedReport) 
+  {
+    switch(report.type) {
+      case constants.REPORT_TYPE_CLOSEDXML:
+        reportForm = <ClosedXmlReport report={report} template={template}/>;
+        break;
+      case constants.REPORT_TYPE_MALIBU:
+        reportForm = <MalibuReport report={report} template={template}/>;
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <React.Fragment>
       {isLoadedReport && isLoadedTemplate &&
-        <Report report={report} template={template}/>
+        reportForm
       }
     </React.Fragment>
   );

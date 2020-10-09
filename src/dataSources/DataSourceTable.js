@@ -7,11 +7,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from "react-router-dom";
-import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-export default function ReportTable(props) {
+export default function DataSourceTable(props) {
   const history = useHistory();
   
   const handleReportClick = (to) => {
@@ -29,19 +29,19 @@ export default function ReportTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.reports.map((report) => (
-            <TableRow key={report.id}>
+          {props.dataSources.map((dataSource) => (
+            <TableRow key={dataSource.id}>
               <TableCell component="td" scope="row">                
-                {report.name}
+                {dataSource.name}
               </TableCell>
               <TableCell component="td" scope="row">                
-                {report.type}
+                {dataSource.type}
               </TableCell>
               <TableCell component="td" scope="row">   
-                <IconButton onClick={(e) => handleReportClick(`/reports/${report.id}`)}>
+                <IconButton onClick={(e) => handleReportClick(`/dataSources/${dataSource.id}`)}>
                   <EditIcon />
-                </IconButton>             
-                <IconButton onClick={(e) => props.onDeleteReport(report)}>
+                </IconButton>           
+                <IconButton onClick={(e) => props.onDeleteDataSource(dataSource)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

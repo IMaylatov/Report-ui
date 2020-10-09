@@ -10,8 +10,6 @@ export default function AddDataSource(props) {
   };
 
   return (
-    <React.Fragment>
-      <DataSource report={props.report} value={value} onSave={props.onSave} onCancel={props.onCancel}/>
-    </React.Fragment>
+    <DataSource value={value}/>
   );
 }

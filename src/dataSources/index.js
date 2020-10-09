@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import ReportTable from './ReportTable';
+import DataSourceTable from './DataSourceTable';
 import { Button } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import { getReports, deleteReport } from './ReportAPI';
 import { Link } from "react-router-dom";
+import { getDataSources, deleteDataSource } from './DataSourceAPI';
 
-export default function Reports() {
-  const [reports, setReports] = useState([]);
+export default function DataSources() {
+  const [dataSources, setDataSources] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
-    getReports()
+    getDataSources()
       .then(res => {
-        setReports(res);
+        setDataSources(res);
         setIsLoaded(true);
       });
   }, []);
 
-  const handleReportDelete = (report) => {
-    deleteReport(report.id)
+  const handleDataSourceDelete = (dataSource) => {
+    deleteDataSource(dataSource.id)
       .then(res => {
-        const removeReportIndex = reports.map(x => x.id).indexOf(report.id);
-        reports.splice(removeReportIndex, 1);
-        setReports([...reports]);
+        const removeDataSourceIndex = dataSources.map(x => x.id).indexOf(dataSource.id);
+        dataSources.splice(removeDataSourceIndex, 1);
+        setDataSources([...dataSources]);
       });
   }
 
@@ -36,14 +36,14 @@ export default function Reports() {
             <IconButton component={Link} to='/' edge="start" color="inherit">
               <HomeIcon />
             </IconButton>
-            Отчеты       
+            Источники данных       
         </Toolbar>
       </AppBar>
 
-      <Button component={Link} to='/reports/add' variant="contained" color='primary'>Добавить отчет</Button>
+      <Button component={Link} to='/dataSources/add' variant="contained" color='primary'>Добавить источник данных</Button>
 
       {isLoaded &&
-        <ReportTable reports={reports} onDeleteReport={handleReportDelete}/>
+        <DataSourceTable dataSources={dataSources} onDeleteDataSource={handleDataSourceDelete}/>
       }
       
     </React.Fragment>

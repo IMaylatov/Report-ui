@@ -14,9 +14,11 @@ import { useDialog } from '../../common';
 import InputVariables from '../../variables/InputVariables';
 import download from 'downloadjs';
 import { addReportTemplate, updateReportTemplate, deleteReportTemplate } from '../../templates/TemplateAPI';
+import { useHistory } from "react-router-dom";
 
-export default function Report(props) {  
+export default function ClosedXmlReport(props) {  
   const [template, setTemplate] = useState(props.template);
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: props.report,
@@ -26,7 +28,9 @@ export default function Report(props) {
         : updateReport(values.id, values);
       reportOperation.then(report => {
         if (template.id === 0) {
-          addReportTemplate(report.id, template.data);
+          addReportTemplate(report.id, template.data)
+            .then(res => res.json())
+            .then(res => history.push(`${report.id}`));
         } else {          
           if (template.data !== null) {
             updateReportTemplate(report.id, template.id, template.data);

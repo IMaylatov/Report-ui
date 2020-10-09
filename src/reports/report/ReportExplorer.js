@@ -1,7 +1,5 @@
 import React from 'react';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import AddDataSource from '../../dataSources/AddDataSource';
-import DataSource from '../../dataSources/DataSource';
 import AddDataSet from '../../dataSets/AddDataSet';
 import DataSet from '../../dataSets/DataSet';
 import AddVariable from '../../variables/AddVariable';
@@ -11,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { useMenu, useTreeView, useDialog, useOperation } from '../../common';
 import * as dataSetConstants from '../../dataSets/constants';
+import SelectDataSource from '../../dataSources/SelectDataSource';
 
 export default function ReportExplorer(props) {
   const handleItemAdd = (itemsField, item) => {
@@ -38,8 +37,8 @@ export default function ReportExplorer(props) {
   const [handleDataSourceAdd, handleDataSourceEdit, handleDataSourceDelete] = useOperation({
     setOpenDialog,
     setDialogContent,
-    addForm: (formProps) => <AddDataSource report={props.report} {...formProps}/>,
-    editForm: (formProps) => <DataSource report={props.report} {...formProps}/>,
+    addForm: (formProps) => <SelectDataSource report={props.report} {...formProps}/>,
+    editForm: (formProps) => <SelectDataSource report={props.report} {...formProps}/>,
     onAdd: (item) => handleItemAdd('dataSources', item),
     onEdit: (preValue, value) => handleItemEdit('dataSources', preValue, value),
     onDelete: (value) => {

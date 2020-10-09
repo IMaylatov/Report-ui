@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import ClosedXmlTemplate from './ClosedXmlTemplate';
+import XlsxFileTemplate from './XlsxFileTemplate';
 import * as constant from '../reports/constant';
 
 export default function Template(props) {
@@ -11,7 +11,8 @@ export default function Template(props) {
   let form;
   switch(props.report.type) {
     case constant.REPORT_TYPE_CLOSEDXML:
-      form = <ClosedXmlTemplate report={props.report} template={props.template} onChange={handleValueChange}/>
+    case constant.REPORT_TYPE_MALIBU:
+      form = <XlsxFileTemplate report={props.report} template={props.template} onChange={handleValueChange}/>
       break;
     default:
       break;
