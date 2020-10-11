@@ -52,12 +52,17 @@ export default function DataSet(props) {
     formik.setFieldValue('type', type);
   }
 
+  const disabletor = (name) => {
+    return props.disabletor(`DataSet.${name}`);
+  };
+
   let dataSetForm;
   switch(formik.values.type) {
     case DATASET_TYPE_SQLQUERY:
       dataSetForm = <SqlQueryDataSet report={props.report} 
         data={formik.values.data} 
-        onChange={(data) => formik.setFieldValue('data', data)} name='data'/>
+        onChange={(data) => formik.setFieldValue('data', data)} name='data'
+        disabletor={disabletor}/>
       break;
     default:
       break;
@@ -73,7 +78,8 @@ export default function DataSet(props) {
             <TextField value={formik.values.name} onChange={formik.handleChange} 
               required label='Наименование' name='name'
               error={Boolean(formik.errors.name)}
-              helperText={formik.errors.name}/>
+              helperText={formik.errors.name}
+              disabled={disabletor('name')}/>
           </FormControl>
         </div>
 
@@ -86,6 +92,7 @@ export default function DataSet(props) {
               value={formik.values.type}
               onChange={handleTypeChange}
               name='type'
+              disabled={disabletor('type')}
             >
               {DATASET_TYPES.map((dataSetType) => (
                 <MenuItem key={dataSetType} value={dataSetType}>

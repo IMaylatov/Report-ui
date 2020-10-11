@@ -26,6 +26,10 @@ export default function SqlQueryDataSet(props) {
     props.onChange({ ...props.data, dataSourceName: e.target.value });
   }
 
+  const disabletor = (name) => {
+    return props.disabletor(`SqlQueryDataSet.${name}`);
+  };
+
   return (
     <React.Fragment>
       <div>
@@ -36,6 +40,7 @@ export default function SqlQueryDataSet(props) {
             label="Источник данных"
             value={props.data.dataSourceName}
             onChange={handleDataSetChange}
+            disabled={disabletor('dataSourceName')}
           >
             {props.report.dataSources.map((dataSource) => (
               <MenuItem key={dataSource.name} value={dataSource.name}>
@@ -51,7 +56,9 @@ export default function SqlQueryDataSet(props) {
           <TextareaAutosize value={props.data.query} onChange={handleQueryChange} 
             required placeholder="Empty"
             rowsMin='10'
-            className={classes.sqlQueryTextarea}/>
+            className={classes.sqlQueryTextarea}
+            disabled={disabletor('query')}
+            />
         </FormControl>
       </div>
     </React.Fragment>

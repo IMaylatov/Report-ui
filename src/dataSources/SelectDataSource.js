@@ -43,6 +43,10 @@ export default function SelectDataSource(props) {
       });
   }, []);
 
+  const disabletor = (name) => {
+    return props.disabletor(`SelectDataSource.${name}`);
+  };
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <CloseDialogTitle onClose={props.onCancel}>Выберите источник данных</CloseDialogTitle>
@@ -55,6 +59,7 @@ export default function SelectDataSource(props) {
               value={formik.values.dataSourceId}
               onChange={(id) => formik.setFieldValue('dataSourceId', id.target.value)}
               name='dataSource'
+              disabled={disabletor('dataSource')}
             >
               {dataSources.map((dataSource) => (
                 <MenuItem key={dataSource.id} value={dataSource.id}>

@@ -23,7 +23,11 @@ export default function SelectDataVariable(props) {
   const handleQueryChange = (e) => {
     props.data.dataSet.data.query = e.target.value;
     props.onDataChange({ ...props.data });
-  }
+  }  
+  
+  const disabletor = (name) => {
+    return props.disabletor(`SelectDataVariable.${name}`);
+  };
 
   return (
     <React.Fragment>
@@ -34,6 +38,7 @@ export default function SelectDataVariable(props) {
             required 
             value={props.data.dataSet.data.dataSourceName}
             onChange={handleDataSourceChange}
+            disabled={disabletor('dataSourceName')}
           >
             {props.report.dataSources.map((dataSource) => (
               <MenuItem key={dataSource.id} value={dataSource.name}>

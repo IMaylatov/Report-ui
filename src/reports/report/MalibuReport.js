@@ -17,6 +17,24 @@ import {
 from '../../constants';
 import SelectDataSource from '../../dataSources/SelectDataSource';
 
+const disabledFields = [
+  'ReportExplorer.SelectDataSource.dataSource',
+
+  'ReportExplorer.DataSet.name',
+  'ReportExplorer.DataSet.type',
+  'ReportExplorer.DataSet.SqlQueryDataSet.dataSourceName',
+  'ReportExplorer.DataSet.SqlQueryDataSet.query',
+
+  'ReportExplorer.Variable.name',  
+  'ReportExplorer.Variable.label',
+  'ReportExplorer.Variable.type',
+  'ReportExplorer.Variable.SelectDataVariable.dataSourceName'
+];
+
+const disabletor = (name) => {
+  return disabledFields.includes(name);
+};
+
 export default function MalibuReport(props) {
   const documentVariable = props.value.report.variables.find(x => x.name === 'Document');
   const [reportType, setReportType] = useState(documentVariable ? documentVariable.type : 'none');
@@ -41,7 +59,7 @@ export default function MalibuReport(props) {
           name: x.getAttribute('NAME'),
           type: DATASET_TYPE_SQLQUERY,
           data: {
-            dataSource: props.value.report.dataSources[0],
+            dataSourceName: props.value.report.dataSources[0].name,
             query: x.getElementsByTagName("SQL")[0].childNodes[0].nodeValue
           }
         }
@@ -139,6 +157,8 @@ export default function MalibuReport(props) {
     <React.Fragment>
         <Grid item xs={3}>
           <ReportExplorer 
+            addItemHidden deleteItemHidden
+            disabletor={disabletor}
             report={props.value.report} 
             onChange={(report) => props.onChange({ ...props.value, report })}/>
         </Grid>

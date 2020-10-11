@@ -34,11 +34,15 @@ export default function ReportExplorer(props) {
 
   const [dialog, { setDialogContent, setOpenDialog }] = useDialog();
 
+  const disabletor = (name) => {
+    return props.disabletor(`ReportExplorer.${name}`);
+  };
+
   const [handleDataSourceAdd, handleDataSourceEdit, handleDataSourceDelete] = useOperation({
     setOpenDialog,
     setDialogContent,
     addForm: (formProps) => <SelectDataSource report={props.report} {...formProps}/>,
-    editForm: (formProps) => <SelectDataSource report={props.report} {...formProps}/>,
+    editForm: (formProps) => <SelectDataSource disabletor={disabletor} report={props.report} {...formProps}/>,
     onAdd: (item) => handleItemAdd('dataSources', item),
     onEdit: (preValue, value) => handleItemEdit('dataSources', preValue, value),
     onDelete: (value) => {
@@ -56,7 +60,7 @@ export default function ReportExplorer(props) {
     setOpenDialog,
     setDialogContent,
     addForm: (formProps) => <AddDataSet report={props.report} {...formProps}/>,
-    editForm: (formProps) => <DataSet report={props.report} {...formProps}/>,
+    editForm: (formProps) => <DataSet disabletor={disabletor} report={props.report} {...formProps}/>,
     onAdd: (item) => handleItemAdd('dataSets', item),
     onEdit: (preValue, value) => handleItemEdit('dataSets', preValue, value),
     onDelete: (value) => handleItemDelete('dataSets', value)
@@ -66,7 +70,7 @@ export default function ReportExplorer(props) {
     setOpenDialog,
     setDialogContent,
     addForm: (formProps) => <AddVariable report={props.report} {...formProps}/>,
-    editForm: (formProps) => <Variable report={props.report} {...formProps}/>,
+    editForm: (formProps) => <Variable disabletor={disabletor} report={props.report} {...formProps}/>,
     onAdd: (item) => handleItemAdd('variables', item),
     onEdit: (preValue, value) => handleItemEdit('variables', preValue, value),
     onDelete: (value) => handleItemDelete('variables', value)
@@ -142,14 +146,19 @@ export default function ReportExplorer(props) {
 
   return (
     <React.Fragment>
-      {addItemMenu}
+      {!props.addItemHidden &&
+        addItemMenu
+      }      
 
       <IconButton onClick={handleEditClick} edge="start" color="primary">
         <EditIcon />
       </IconButton>
-      <IconButton onClick={handleDeleteClick} edge="start" color="primary">
-        <DeleteIcon />
-      </IconButton>
+
+      {!props.deleteItemHidden &&
+        <IconButton onClick={handleDeleteClick} edge="start" color="primary">
+          <DeleteIcon />
+        </IconButton>
+      }
 
       {reportTreeView}
 

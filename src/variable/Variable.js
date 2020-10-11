@@ -60,17 +60,23 @@ export default function Variable(props) {
     }
   }
 
+  const disabletor = (name) => {
+    return props.disabletor(`Variable.${name}`);
+  };
+
   let variableForm;
   switch(formik.values.type) {
     case VARIABLE_TYPE_SELECT.name:
       variableForm = <SelectDataVariable report={props.report}
         data={formik.values.data} 
-        onDataChange={(data) => formik.setFieldValue('data', data)} />
+        onDataChange={(data) => formik.setFieldValue('data', data)} 
+        disabletor={disabletor}/>
       break;
     case VARIABLE_TYPE_MULTIPLE_SELECT.name:      
       variableForm = <SelectDataVariable multiple report={props.report} 
         data={formik.values.data} 
-        onDataChange={(data) => formik.setFieldValue('data', data)} />      
+        onDataChange={(data) => formik.setFieldValue('data', data)} 
+        disabletor={disabletor}/>      
       break;
     default:
       break;
@@ -87,7 +93,8 @@ export default function Variable(props) {
               required label='Наименование' name='name'
               error={Boolean(formik.errors.name)}
               helperText={formik.errors.name}
-              className={classes.textField}/>
+              className={classes.textField}
+              disabled={disabletor('name')}/>
           </FormControl>
         </div>
         
@@ -95,7 +102,8 @@ export default function Variable(props) {
           <FormControl>
             <TextField value={formik.values.label} onChange={formik.handleChange} 
               required label='Заголовок' name='label'
-              className={classes.textField}/>
+              className={classes.textField}
+              disabled={disabletor('label')}/>
           </FormControl>
         </div>
 
@@ -109,6 +117,7 @@ export default function Variable(props) {
               onChange={handleTypeChange}
               name='type'
               className={classes.textField}
+              disabled={disabletor('type')}
             >
               {VARIABLE_TYPES.map((type) => (
                 <MenuItem key={type.name} value={type.name}>
