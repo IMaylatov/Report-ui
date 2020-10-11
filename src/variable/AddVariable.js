@@ -2,7 +2,7 @@ import React  from 'react';
 import Variable from './Variable';
 
 export default function AddVariable(props) {
-  const value = {
+  const variable = {
     id: 0,
     name: '',
     label: '',
@@ -11,6 +11,6 @@ export default function AddVariable(props) {
   };
 
   return (
-    <Variable report={props.report} value={value} onSave={props.onSave} onCancel={props.onCancel}/>
+    <Variable report={props.report} value={variable} onSave={props.onSave} onCancel={props.onCancel}/>
   );
 }

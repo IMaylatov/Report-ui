@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { TextField } from '@material-ui/core';
-import { getSqlQueryItems } from '../dataSets/DataSetAPI';
+import { getSqlQueryItems } from '../../dataSets/DataSetAPI';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export default function MultipleSelectInputVariable(props) {  
+export default function SelectInputVariable(props) {
   const dataSource = props.report.dataSources.find(x => x.name === props.variable.data.dataSet.data.dataSourceName);
   const query = props.variable.data.dataSet.data.query;
   const captionField = props.variable.data.captionField;
@@ -40,7 +40,7 @@ export default function MultipleSelectInputVariable(props) {
   return (
     <React.Fragment>
       <Autocomplete
-        multiple
+        multiple = {props.multiple}
         options={items}
         getOptionLabel={(option) => option[captionField]}
         style={{ width: 300 }}

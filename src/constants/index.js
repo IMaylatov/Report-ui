@@ -1,3 +1,22 @@
+export const REPORT_TYPE_CLOSEDXML = 'closedXml';
+export const REPORT_TYPE_MALIBU = 'malibu';
+
+
+export const DATASOURCE_TYPE_MSSQL = 'msSql';
+export const DATASOURCE_TYPE_POSTGRESQL = 'postgreSql';
+
+export const DATASOURCE_TYPES = [
+  DATASOURCE_TYPE_MSSQL
+];
+
+
+export const DATASET_TYPE_SQLQUERY = 'sqlQuery';
+
+export const DATASET_TYPES = [
+  DATASET_TYPE_SQLQUERY
+];
+
+
 export const VARIABLE_TYPE_SELECT = { name: 'select', label: 'Список'};
 export const VARIABLE_TYPE_MULTIPLE_SELECT = { name: 'multipleSelect', label: 'Список с множественным выбором'};
 export const VARIABLE_TYPE_STRING = { name: 'string', label: 'Строка'};

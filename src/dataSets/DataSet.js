@@ -11,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import FormControl from '@material-ui/core/FormControl';
 import { useFormik } from 'formik';
-import * as constants from './constants';
+import { DATASET_TYPE_SQLQUERY, DATASET_TYPES } from '../constants';
 
 const useStyles = makeStyles({
   textField: {
@@ -43,8 +43,8 @@ export default function DataSet(props) {
   const handleTypeChange = (e) => {
     const type = e.target.value;
     switch(type) {
-      case constants.DATASET_TYPE_SQLQUERY:
-        formik.setFieldValue('data', { dataSource: '', query: '' });
+      case DATASET_TYPE_SQLQUERY:
+        formik.setFieldValue('data', { dataSourceName: '', query: '' });
         break;
       default:
         break;
@@ -54,7 +54,7 @@ export default function DataSet(props) {
 
   let dataSetForm;
   switch(formik.values.type) {
-    case constants.DATASET_TYPE_SQLQUERY:
+    case DATASET_TYPE_SQLQUERY:
       dataSetForm = <SqlQueryDataSet report={props.report} 
         data={formik.values.data} 
         onChange={(data) => formik.setFieldValue('data', data)} name='data'/>
@@ -87,7 +87,7 @@ export default function DataSet(props) {
               onChange={handleTypeChange}
               name='type'
             >
-              {constants.DATASET_TYPES.map((dataSetType) => (
+              {DATASET_TYPES.map((dataSetType) => (
                 <MenuItem key={dataSetType} value={dataSetType}>
                   {dataSetType}
                 </MenuItem>

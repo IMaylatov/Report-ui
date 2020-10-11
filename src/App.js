@@ -9,8 +9,8 @@ import Reports from './reports/index'
 import AddReport from './reports/report/AddReport'
 import EditReport from './reports/report/EditReport'
 import DataSources from './dataSources/index';
-import AddDataSource from './dataSources/AddDataSource';
-import EditDataSource from './dataSources/EditDataSource';
+import AddDataSource from './dataSources/dataSource/AddDataSource';
+import EditDataSource from './dataSources/dataSource/EditDataSource';
 
 function App() {
   return (

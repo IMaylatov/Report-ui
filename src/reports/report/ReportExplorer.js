@@ -2,14 +2,14 @@ import React from 'react';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddDataSet from '../../dataSets/AddDataSet';
 import DataSet from '../../dataSets/DataSet';
-import AddVariable from '../../variables/AddVariable';
-import Variable from '../../variables/Variable';
+import AddVariable from '../../variable/AddVariable';
+import Variable from '../../variable/Variable';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { useMenu, useTreeView, useDialog, useOperation } from '../../common';
-import * as dataSetConstants from '../../dataSets/constants';
 import SelectDataSource from '../../dataSources/SelectDataSource';
+import { DATASET_TYPE_SQLQUERY } from '../../constants';
 
 export default function ReportExplorer(props) {
   const handleItemAdd = (itemsField, item) => {
@@ -43,7 +43,7 @@ export default function ReportExplorer(props) {
     onEdit: (preValue, value) => handleItemEdit('dataSources', preValue, value),
     onDelete: (value) => {
       if (props.report.dataSets
-          .filter(d => d.type === dataSetConstants.DATASET_TYPE_SQLQUERY)
+          .filter(d => d.type === DATASET_TYPE_SQLQUERY)
           .map(d => d.data.dataSource).includes(value)) {
         alert('Невозможно удалить. Источник используется в наборе данных');
         return;

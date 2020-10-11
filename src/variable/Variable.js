@@ -10,9 +10,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import FormControl from '@material-ui/core/FormControl';
 import { useFormik } from 'formik';
-import * as constants from './constants';
-import SelectDataVariable from './SelectDataVariable';
-import MultipleSelectDataVariable from './MultipleSelectDataVariable';
+import SelectDataVariable from './custom/SelectDataVariable';
+import { VARIABLE_TYPE_SELECT, VARIABLE_TYPE_MULTIPLE_SELECT, VARIABLE_TYPES } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -41,22 +40,10 @@ export default function Variable(props) {
     },
   });
 
-  let variableForm;
-  switch(formik.values.type) {
-    case constants.VARIABLE_TYPE_SELECT.name:
-      variableForm = <SelectDataVariable report={props.report} data={formik.values.data} onDataChange={(data) => formik.setFieldValue('data', data)} />
-      break;
-    case constants.VARIABLE_TYPE_MULTIPLE_SELECT.name:      
-      variableForm = <MultipleSelectDataVariable report={props.report} data={formik.values.data} onDataChange={(data) => formik.setFieldValue('data', data)} />      
-      break;
-    default:
-      break;
-  }
-
   const handleTypeChange = (e) => {
     const type = e.target.value;
     formik.setFieldValue('type', type);
-    if (type === constants.VARIABLE_TYPE_SELECT.name || type === constants.VARIABLE_TYPE_MULTIPLE_SELECT.name) {
+    if (type === VARIABLE_TYPE_SELECT.name || type === VARIABLE_TYPE_MULTIPLE_SELECT.name) {
       formik.setFieldValue('data', {
         captionField: '',
         keyField: '',
@@ -71,6 +58,22 @@ export default function Variable(props) {
     } else {
       formik.setFieldValue('data', '');
     }
+  }
+
+  let variableForm;
+  switch(formik.values.type) {
+    case VARIABLE_TYPE_SELECT.name:
+      variableForm = <SelectDataVariable report={props.report}
+        data={formik.values.data} 
+        onDataChange={(data) => formik.setFieldValue('data', data)} />
+      break;
+    case VARIABLE_TYPE_MULTIPLE_SELECT.name:      
+      variableForm = <SelectDataVariable multiple report={props.report} 
+        data={formik.values.data} 
+        onDataChange={(data) => formik.setFieldValue('data', data)} />      
+      break;
+    default:
+      break;
   }
 
   return (
@@ -91,7 +94,7 @@ export default function Variable(props) {
         <div>
           <FormControl>
             <TextField value={formik.values.label} onChange={formik.handleChange} 
-              required label='Псевдоним' name='label'
+              required label='Заголовок' name='label'
               className={classes.textField}/>
           </FormControl>
         </div>
@@ -107,14 +110,16 @@ export default function Variable(props) {
               name='type'
               className={classes.textField}
             >
-              {constants.VARIABLE_TYPES.map((type) => (
+              {VARIABLE_TYPES.map((type) => (
                 <MenuItem key={type.name} value={type.name}>
                   {type.label}
                 </MenuItem>
               ))}
             </TextField>
           </FormControl>
-          <br/>
+        </div>
+
+        <div>
           {variableForm}
         </div>
       </DialogContent>

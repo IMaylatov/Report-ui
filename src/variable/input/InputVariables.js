@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import CloseDialogTitle from '../common/CloseDialogTitle';
+import CloseDialogTitle from '../../common/CloseDialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import InputVariable from './InputVariable';
@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 
 export default function InputVariables(props) {
   const formik = useFormik({
-    initialValues: props.variables.map(variable => {
+    initialValues: props.report.variables.map(variable => {
                       if (variable.type === 'period') {
                         return { ...variable, value: { beginDate: '', endDate: '' } }
                       }
@@ -26,7 +26,9 @@ export default function InputVariables(props) {
         {formik.values.map((variable, i) => {
           return (
             <div key={i}>
-              <InputVariable report={props.report} variable={variable} onChange={(param) => formik.setFieldValue(`[${i}]`, param)}
+              <InputVariable report={props.report} 
+                variable={variable} 
+                onChange={(value) => formik.setFieldValue(`[${i}]`, value)}
                 name={`[${i}]`}/>
             </div>
           );

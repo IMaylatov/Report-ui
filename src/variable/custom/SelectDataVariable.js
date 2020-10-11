@@ -10,6 +10,11 @@ export default function SelectDataVariable(props) {
     props.onDataChange({ ...props.data });
   }
 
+  const handleKeyFieldChange = (e) => {    
+    props.data.keyField = e.target.value;
+    props.onDataChange({ ...props.data });
+  }
+
   const handleCaptionFieldChange = (e) => {
     props.data.captionField = e.target.value;
     props.onDataChange({ ...props.data });
@@ -39,10 +44,17 @@ export default function SelectDataVariable(props) {
         </FormControl>
         <br/>
         <FormControl>
-          <TextField value={props.data.captionField} 
+          <TextField value={props.data.captionField}
             onChange={handleCaptionFieldChange}
             label={'Отображаемое поле'} required />
         </FormControl>
+        {props.multiple &&
+          <FormControl>
+            <TextField value={props.data.keyField} 
+              onChange={handleKeyFieldChange}
+              label={'Ключевое поле'} required />
+          </FormControl>
+        }
         <br/>
         <FormControl>
           <TextareaAutosize value={props.data.dataSet.data.query} onChange={handleQueryChange}

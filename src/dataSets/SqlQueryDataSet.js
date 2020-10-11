@@ -23,7 +23,7 @@ export default function SqlQueryDataSet(props) {
   }
 
   const handleDataSetChange = (e) => {
-    props.onChange({ ...props.data, dataSource: e.target.value });
+    props.onChange({ ...props.data, dataSourceName: e.target.value });
   }
 
   return (
@@ -34,11 +34,11 @@ export default function SqlQueryDataSet(props) {
             select
             required 
             label="Источник данных"
-            value={props.data.dataSource}
+            value={props.data.dataSourceName}
             onChange={handleDataSetChange}
           >
             {props.report.dataSources.map((dataSource) => (
-              <MenuItem key={dataSource.name} value={dataSource}>
+              <MenuItem key={dataSource.name} value={dataSource.name}>
                 {dataSource.name}
               </MenuItem>
             ))}

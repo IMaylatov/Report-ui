@@ -1,12 +1,13 @@
 import React, { useState, useEffect}  from 'react';
 import DataSource from './DataSource';
 import { useParams } from "react-router-dom";
-import { getDataSourcetById } from './DataSourceAPI';
+import { getDataSourcetById } from '../DataSourceAPI';
 
 export default function EditDataSource(props) {
+  const { dataSourceId } = useParams();
+  
   const [dataSource, setDataSource] = useState(null);
   const [isLoadedDataSource, setIsLoadedDataSource] = useState(false);
-  const { dataSourceId } = useParams();
 
   useEffect(() => {
     getDataSourcetById(dataSourceId)

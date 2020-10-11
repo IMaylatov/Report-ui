@@ -30,18 +30,18 @@ export const updateReport = (id, value) => {
     .then(res => res.json());
 }
 
-
 export const deleteReport = (id) => {
   return fetch(`/api/reports/${id}`, {
       method: 'DELETE'
     });
 }
 
-export const runReport = (report, template) => {
+export const runReport = (report, template, variables) => {
   const formData = new FormData();
   
   formData.append('report', JSON.stringify(report));
   formData.append('template', template.data);
+  formData.append('variables', JSON.stringify(variables));
 
   return fetch('/api/run/report', {
     method: 'POST',
