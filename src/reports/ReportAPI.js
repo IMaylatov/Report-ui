@@ -48,3 +48,14 @@ export const runReport = (report, template, variables) => {
     body: formData
   });
 }
+
+export const runReportById = (reportId, variables) => {
+  const formData = new FormData();
+  
+  formData.append('variables', JSON.stringify(variables));
+
+  return fetch(`/api/run/report/${reportId}`, {
+    method: 'POST',
+    body: formData
+  });
+}

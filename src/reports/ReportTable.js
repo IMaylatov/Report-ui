@@ -10,14 +10,11 @@ import { useHistory } from "react-router-dom";
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 export default function ReportTable(props) {
   const history = useHistory();
   
-  const handleReportClick = (to) => {
-    history.push(to);
-  }
-
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -38,11 +35,14 @@ export default function ReportTable(props) {
                 {report.type}
               </TableCell>
               <TableCell component="td" scope="row">   
-                <IconButton onClick={(e) => handleReportClick(`/reports/${report.id}`)}>
+                <IconButton onClick={(e) => history.push(`/reports/${report.id}`)}>
                   <EditIcon />
                 </IconButton>             
                 <IconButton onClick={(e) => props.onDeleteReport(report)}>
                   <DeleteIcon />
+                </IconButton>           
+                <IconButton onClick={(e) => history.push(`/reports/${report.id}/run`)}>
+                  <PlayArrowIcon />
                 </IconButton>
               </TableCell>
             </TableRow>

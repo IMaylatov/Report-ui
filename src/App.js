@@ -11,6 +11,7 @@ import EditReport from './reports/report/EditReport'
 import DataSources from './dataSources/index';
 import AddDataSource from './dataSources/dataSource/AddDataSource';
 import EditDataSource from './dataSources/dataSource/EditDataSource';
+import ReportRun from './reports/run/ReportRun';
 
 function App() {
   return (
@@ -29,7 +30,10 @@ function App() {
         </Route>
         <Route exact path="/reports/:reportId">
           <EditReport />
-        </Route>        
+        </Route> 
+        <Route exact path="/reports/:reportId/run">
+          <ReportRun />
+        </Route> 
         <Route exact path="/dataSources">
           <DataSources />
         </Route>      

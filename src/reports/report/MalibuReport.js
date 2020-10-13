@@ -43,68 +43,75 @@ export default function MalibuReport(props) {
   
   const handleTemplateChange = (template) => {
     props.value.template = template;
+    
+    if (template.data) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        const parser = new DOMParser();
+        const templateXml = parser.parseFromString(e.target.result, "text/xml");
+        const reportDescBase64 = templateXml.getElementsByTagName("ReportDesc")[0].childNodes[0].nodeValue;
+        const reportDesc = atob(reportDescBase64);    
 
-    let reader = new FileReader();
-    reader.onload = (e) => {
-      const parser = new DOMParser();
-      const templateXml = parser.parseFromString(e.target.result, "text/xml");
-      const reportDescBase64 = templateXml.getElementsByTagName("ReportDesc")[0].childNodes[0].nodeValue;
-      const reportDesc = atob(reportDescBase64);    
+        const reportDescXml = parser.parseFromString(reportDesc, "text/xml");
 
-      const reportDescXml = parser.parseFromString(reportDesc, "text/xml");
-
-      let xmlDataSets = Array.prototype.slice.call(reportDescXml.getElementsByTagName("DATASET"));
-      let dataSets = xmlDataSets.map(x => {
-        return {
-          name: x.getAttribute('NAME'),
-          type: DATASET_TYPE_SQLQUERY,
-          data: {
-            dataSourceName: props.value.report.dataSources[0].name,
-            query: x.getElementsByTagName("SQL")[0].childNodes[0].nodeValue
+        let xmlDataSets = Array.prototype.slice.call(reportDescXml.getElementsByTagName("DATASET"));
+        let dataSets = xmlDataSets.map(x => {
+          return {
+            name: x.getAttribute('NAME'),
+            type: DATASET_TYPE_SQLQUERY,
+            data: {
+              dataSourceName: props.value.report.dataSources[0].name,
+              query: x.getElementsByTagName("SQL")[0].childNodes[0].nodeValue
+            }
           }
-        }
-      });
-      props.value.report.dataSets = dataSets;
+        });
+        props.value.report.dataSets = dataSets;
 
-      let xmlVariables = Array.prototype.slice.call(reportDescXml.getElementsByTagName("PARAM"));
-      let variables = xmlVariables.map(x => {
-        let name = x.getAttribute('NAME');
-        let labelBuffer = encode(x.getElementsByTagName("QUERY_STRING")[0].childNodes[0].nodeValue, 'iso-8859-1');
-        let label = decode(labelBuffer, 'win1251');
-        let type = x.getElementsByTagName("PARAM_TYPE")[0].childNodes[0].nodeValue;
+        let xmlVariables = Array.prototype.slice.call(reportDescXml.getElementsByTagName("PARAM"));
+        let variables = xmlVariables.map(x => {
+          let name = x.getAttribute('NAME');
+          let labelBuffer = encode(x.getElementsByTagName("QUERY_STRING")[0].childNodes[0].nodeValue, 'iso-8859-1');
+          let label = decode(labelBuffer, 'win1251');
+          let type = x.getElementsByTagName("PARAM_TYPE")[0].childNodes[0].nodeValue;
+          
+          switch(type) {
+            case '0':
+              return { name, label, type: VARIABLE_TYPE_SELECT.name, 
+                data: { 
+                  captionField: '', 
+                  dataSet: { type: 'SqlQuery', data: { dataSourceName: props.value.report.dataSources[0].name, query: '' } }
+                }  };
+            case '1':
+              return { name, label, type: VARIABLE_TYPE_MULTIPLE_SELECT.name, 
+                data: { 
+                  captionField: '', keyField: '', 
+                  dataSet: { type: 'SqlQuery', data: { dataSourceName: props.value.report.dataSources[0].name, query: '' } }
+                } };
+            case '3':
+              return { name, label, type: VARIABLE_TYPE_DATE.name };
+            case '4':
+              return { name, label, type: VARIABLE_TYPE_PERIOD.name };
+            default:
+              return { name, label };
+          }
+        });
+
+        if (documentVariable) {
+          props.value.report.variables = [documentVariable, ...variables];
+        } else {
+          props.value.report.variables = variables;
+        }
         
-        switch(type) {
-          case '0':
-            return { name, label, type: VARIABLE_TYPE_SELECT.name, 
-              data: { 
-                captionField: '', 
-                dataSet: { type: 'SqlQuery', data: { dataSourceName: props.value.report.dataSources[0].name, query: '' } }
-              }  };
-          case '1':
-            return { name, label, type: VARIABLE_TYPE_MULTIPLE_SELECT.name, 
-              data: { 
-                captionField: '', keyField: '', 
-                dataSet: { type: 'SqlQuery', data: { dataSourceName: props.value.report.dataSources[0].name, query: '' } }
-              } };
-          case '3':
-            return { name, label, type: VARIABLE_TYPE_DATE.name };
-          case '4':
-            return { name, label, type: VARIABLE_TYPE_PERIOD.name };
-          default:
-            return { name, label };
-        }
-      });
+        props.onChange({ ...props.value });
+      };
 
-      if (documentVariable) {
-        props.value.report.variables = [documentVariable, ...variables];
-      } else {
-        props.value.report.variables = variables;
-      }
-      
+      reader.readAsText(template.data);      
+    } else {
+      props.value.report.dataSets = [];
+      props.value.report.variables = [];
       props.onChange({ ...props.value });
-    };
-
-    reader.readAsText(template.data);
+      setReportType('none');
+    }
   }
 
   const handleDataTypeChange = (e) => {
@@ -149,7 +156,8 @@ export default function MalibuReport(props) {
         props.onChange({ ...props.value });
         setOpenDialog(false)
       }}
-      onCancel={setOpenDialog(false)}/>);
+      onCancel={setOpenDialog(false)}
+      disabletor={disabletor}/>);
     setOpenDialog(true);
   }
 
