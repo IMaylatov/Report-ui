@@ -23,6 +23,7 @@ export default function useOperation(props) {
   const openForm = (form) => {
     props.setDialogContent(form);
     props.setOpenDialog(true);
+    props.setMaxWidthDialog();
   }
 
   const handleAdd = (e) => {

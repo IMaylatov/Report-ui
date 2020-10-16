@@ -1,4 +1,5 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddDataSet from '../../dataSets/AddDataSet';
 import DataSet from '../../dataSets/DataSet';
@@ -8,10 +9,27 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { useMenu, useTreeView, useDialog, useOperation } from '../../common';
-import SelectDataSource from '../../dataSources/SelectDataSource';
 import { DATASET_TYPE_SQLQUERY } from '../../constants';
+import AddDataSource from '../../dataSources/AddDataSource';
+import DataSource from '../../dataSources/DataSource';
+import { Typography } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  operationPanel: {
+    float: 'right'
+  },
+  operationButton: {
+    padding: 10
+  },
+  reportType: {
+    paddingLeft: 15,
+    paddingTop: 10
+  }
+}));
 
 export default function ReportExplorer(props) {
+  const classes = useStyles();
+
   const handleItemAdd = (itemsField, item) => {
     props.report[itemsField] = [ ...props.report[itemsField], item];
     props.onChange(props.report);
@@ -32,17 +50,22 @@ export default function ReportExplorer(props) {
     setSelected([]);
   }
 
-  const [dialog, { setDialogContent, setOpenDialog }] = useDialog();
+  const [dialog, { setDialogContent, setOpenDialog, setMaxWidthDialog }] = useDialog();
 
   const disabletor = (name) => {
-    return props.disabletor(`ReportExplorer.${name}`);
+    if (props.disabletor) {
+      return props.disabletor(`ReportExplorer.${name}`);
+    } else {
+      return false;
+    }
   };
 
   const [handleDataSourceAdd, handleDataSourceEdit, handleDataSourceDelete] = useOperation({
     setOpenDialog,
     setDialogContent,
-    addForm: (formProps) => <SelectDataSource report={props.report} {...formProps}/>,
-    editForm: (formProps) => <SelectDataSource disabletor={disabletor} report={props.report} {...formProps}/>,
+    setMaxWidthDialog: () => setMaxWidthDialog('md'),
+    addForm: (formProps) => <AddDataSource disabletor={disabletor} report={props.report} {...formProps}/>,
+    editForm: (formProps) => <DataSource disabletor={disabletor} report={props.report} {...formProps}/>,
     onAdd: (item) => handleItemAdd('dataSources', item),
     onEdit: (preValue, value) => handleItemEdit('dataSources', preValue, value),
     onDelete: (value) => {
@@ -59,7 +82,8 @@ export default function ReportExplorer(props) {
   const [handleDataSetAdd, handleDataSetEdit, handleDataSetDelete] = useOperation({
     setOpenDialog,
     setDialogContent,
-    addForm: (formProps) => <AddDataSet report={props.report} {...formProps}/>,
+    setMaxWidthDialog: () => setMaxWidthDialog('md'),
+    addForm: (formProps) => <AddDataSet disabletor={disabletor} report={props.report} {...formProps}/>,
     editForm: (formProps) => <DataSet disabletor={disabletor} report={props.report} {...formProps}/>,
     onAdd: (item) => handleItemAdd('dataSets', item),
     onEdit: (preValue, value) => handleItemEdit('dataSets', preValue, value),
@@ -69,7 +93,8 @@ export default function ReportExplorer(props) {
   const [handleVariableAdd, handleVariableEdit, handleVariableDelete] = useOperation({
     setOpenDialog,
     setDialogContent,
-    addForm: (formProps) => <AddVariable report={props.report} {...formProps}/>,
+    setMaxWidthDialog: () => setMaxWidthDialog('sm'),
+    addForm: (formProps) => <AddVariable disabletor={disabletor} report={props.report} {...formProps}/>,
     editForm: (formProps) => <Variable disabletor={disabletor} report={props.report} {...formProps}/>,
     onAdd: (item) => handleItemAdd('variables', item),
     onEdit: (preValue, value) => handleItemEdit('variables', preValue, value),
@@ -133,32 +158,37 @@ export default function ReportExplorer(props) {
   });
 
   const handleEditClick = (e) => {
-    if (selectedChild.onEdit) {
+    if (selectedChild && selectedChild.onEdit) {
       selectedChild.onEdit(selectedChild.value);
     }
   }
 
   const handleDeleteClick = (e) => {
-    if (selectedChild.onDelete) {
+    if (selectedChild && selectedChild.onDelete) {
       selectedChild.onDelete(selectedChild.value);
     }
   }
 
   return (
     <React.Fragment>
-      {!props.addItemHidden &&
-        addItemMenu
-      }      
+      <div>
+        <Typography color='primary' variant='h6' className={classes.reportType}>{props.report.type}</Typography>
+      </div>
+      <div className={classes.operationPanel}>
+        {!props.addItemHidden &&
+          addItemMenu
+        } 
 
-      <IconButton onClick={handleEditClick} edge="start" color="primary">
-        <EditIcon />
-      </IconButton>
-
-      {!props.deleteItemHidden &&
-        <IconButton onClick={handleDeleteClick} edge="start" color="primary">
-          <DeleteIcon />
+        <IconButton onClick={handleEditClick} edge="start" color="primary" className={classes.operationButton}>
+          <EditIcon />
         </IconButton>
-      }
+
+        {!props.deleteItemHidden &&
+          <IconButton onClick={handleDeleteClick} edge="start" color="primary" className={classes.operationButton}>
+            <DeleteIcon />
+          </IconButton>
+        }
+      </div>
 
       {reportTreeView}
 

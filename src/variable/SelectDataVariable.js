@@ -1,10 +1,26 @@
 import React from 'react';
-import { TextField, Select } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField, Select, InputLabel } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import MenuItem from '@material-ui/core/MenuItem';
 
-export default function SelectDataVariable(props) {  
+const useStyles = makeStyles((theme) => ({
+  formField: {
+    width: 300
+  },
+  captionField: {
+    width: 200,
+    paddingRight: theme.spacing(1)
+  },
+  keyField: {
+    width: 200
+  }
+}));
+
+export default function SelectDataVariable(props) {
+  const classes = useStyles();
+
   const handleDataSourceChange = (e) => {
     props.data.dataSet.data.dataSourceName = e.target.value;
     props.onDataChange({ ...props.data });
@@ -32,7 +48,7 @@ export default function SelectDataVariable(props) {
   return (
     <React.Fragment>
       <React.Fragment>
-        <FormControl fullWidth>
+        <FormControl className={classes.formField}>
           <Select
             label="Источник данных"
             required 
@@ -48,24 +64,26 @@ export default function SelectDataVariable(props) {
           </Select>
         </FormControl>
         <br/>
-        <FormControl>
+        <FormControl className={classes.captionField}>
           <TextField value={props.data.captionField}
             onChange={handleCaptionFieldChange}
             label={'Отображаемое поле'} required />
         </FormControl>
         {props.multiple &&
-          <FormControl>
+          <FormControl className={classes.keyField}>
             <TextField value={props.data.keyField} 
               onChange={handleKeyFieldChange}
               label={'Ключевое поле'} required />
           </FormControl>
         }
         <br/>
-        <FormControl>
-          <TextareaAutosize value={props.data.dataSet.data.query} onChange={handleQueryChange}
-            required placeholder="Empty"
-            rowsMin='10'/>
-        </FormControl>
+        <div>
+          <InputLabel>Запрос</InputLabel>
+          <FormControl fullWidth>
+            <TextareaAutosize value={props.data.dataSet.data.query} onChange={handleQueryChange}
+              required placeholder="Empty" rowsMin={10}/>
+          </FormControl>
+        </div>
 
       </React.Fragment>
     </React.Fragment>

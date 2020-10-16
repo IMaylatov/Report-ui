@@ -1,17 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
+import { TextField, InputLabel } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const useStyles = makeStyles({
-  textField: {
-    'width': '200px'
+  formField: {
+    width: 200
   },
   sqlQueryTextarea: {
-    'height': '500px',
-    'width': '500px'
+    height: 500
   }
 });
 
@@ -33,7 +32,7 @@ export default function SqlQueryDataSet(props) {
   return (
     <React.Fragment>
       <div>
-        <FormControl fullWidth className={classes.textField}>
+        <FormControl className={classes.formField}>
           <TextField
             select
             required 
@@ -52,7 +51,8 @@ export default function SqlQueryDataSet(props) {
       </div>
 
       <div>
-        <FormControl>
+        <InputLabel>Запрос</InputLabel>
+        <FormControl fullWidth>
           <TextareaAutosize value={props.data.query} onChange={handleQueryChange} 
             required placeholder="Empty"
             rowsMin='10'

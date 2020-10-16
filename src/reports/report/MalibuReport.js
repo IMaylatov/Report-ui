@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Select, InputLabel, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Select } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Template from '../../templates/Template';
 import { encode, decode } from 'iconv-lite';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ReportExplorer from './ReportExplorer';
-import { useDialog } from '../../common';
+import { Typography } from '@material-ui/core';
 import { 
   DATASET_TYPE_SQLQUERY,
   VARIABLE_TYPE_SELECT, 
@@ -15,10 +16,12 @@ import {
   VARIABLE_TYPE_PERIOD 
 } 
 from '../../constants';
-import SelectDataSource from '../../dataSources/SelectDataSource';
+import Drawer from '@material-ui/core/Drawer';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const disabledFields = [
-  'ReportExplorer.SelectDataSource.dataSource',
+  'ReportExplorer.DataSource.name',
+  'ReportExplorer.DataSource.type',
 
   'ReportExplorer.DataSet.name',
   'ReportExplorer.DataSet.type',
@@ -35,11 +38,33 @@ const disabletor = (name) => {
   return disabledFields.includes(name);
 };
 
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerContainer: {
+    overflow: 'auto',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  typeField: {
+    width: 300
+  }
+}));
+
 export default function MalibuReport(props) {
+  const classes = useStyles();
+
   const documentVariable = props.value.report.variables.find(x => x.name === 'Document');
   const [reportType, setReportType] = useState(documentVariable ? documentVariable.type : 'none');
-  
-  const [dialog, { setDialogContent, setOpenDialog }] = useDialog();
   
   const handleTemplateChange = (template) => {
     props.value.template = template;
@@ -114,18 +139,23 @@ export default function MalibuReport(props) {
     }
   }
 
+  const removeDocumentVariable = () => {
+    if (documentVariable != null) {
+      const indexDocumentVariable = props.value.report.variables.indexOf(documentVariable);
+      props.value.report.variables.splice(indexDocumentVariable, 1);
+    }
+  }
+
   const handleDataTypeChange = (e) => {
     const type = e.target.value;
     setReportType(type);
     if (type === 'none') {
-      if (props.value.report.variables.length > 0 && props.value.report.variables[0].name === 'Document') {
-        props.value.report.variables.shift();
-      }
+      removeDocumentVariable();
     } else {
       let variable = {
         id: 0,
         name: 'Document',
-        label: type === VARIABLE_TYPE_SELECT.name ? VARIABLE_TYPE_SELECT.label : VARIABLE_TYPE_MULTIPLE_SELECT.label,
+        label: type === VARIABLE_TYPE_SELECT.name ? 'Документ' : 'Документы',
         type,
         data: {
           captionField: '',
@@ -139,67 +169,65 @@ export default function MalibuReport(props) {
           }
         }
       }
-      if (documentVariable !== null) {
-        const indexDocumentVariable = props.value.report.variables.indexOf(documentVariable);
-        props.value.report.variables.slice(indexDocumentVariable, 1);
-      }
+      
+      removeDocumentVariable();
       props.value.report.variables = [variable, ...props.value.report.variables];
     }
 
     props.onChange({ ...props.value });
   }
 
-  const handleDataSourceSelectClick = (e) => {    
-    setDialogContent(<SelectDataSource report={props.value.report}
-      onSave={(dataSource) => {
-        props.value.report.dataSources = [dataSource];
-        props.onChange({ ...props.value });
-        setOpenDialog(false)
-      }}
-      onCancel={setOpenDialog(false)}
-      disabletor={disabletor}/>);
-    setOpenDialog(true);
-  }
-
   return (
     <React.Fragment>
-        <Grid item xs={3}>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <Toolbar />
+        <div className={classes.drawerContainer}>
           <ReportExplorer 
             addItemHidden deleteItemHidden
             disabletor={disabletor}
             report={props.value.report} 
             onChange={(report) => props.onChange({ ...props.value, report })}/>
-        </Grid>
+        </div>
+      </Drawer>
+    
+      <main className={classes.content}>
+        <Toolbar />
 
-        <Grid item xs={9}>
-          <Grid container direction="row" alignItems="center">
-            <label>Источник данных: {props.value.report.dataSources.length > 0 ? props.value.report.dataSources[0].name : 'Не выбран'}</label>
-            <Button onClick={handleDataSourceSelectClick} variant="contained" color='primary'>Выбрать</Button>
-          </Grid>
-          
-          <Template 
-            report={props.value.report} 
-            template={props.value.template} 
-            onChange={handleTemplateChange}/>                      
+        <Grid container direction="column" spacing={2}>          
+          <Grid item>
+            <Template 
+              report={props.value.report} 
+              template={props.value.template} 
+              onChange={handleTemplateChange}/>   
+          </Grid>                   
 
           {props.value.template.data !== null &&
-            <FormControl>
-              <InputLabel>Тип отчета</InputLabel>
-              <Select
-                label="Тип отчета"
-                required 
-                value={reportType}
-                onChange={handleDataTypeChange}
-              >
-                <MenuItem value='none'>Произвольный отчет</MenuItem>
-                <MenuItem value={VARIABLE_TYPE_SELECT.name}>Отчет по документу</MenuItem>
-                <MenuItem value={VARIABLE_TYPE_MULTIPLE_SELECT.name}>Отчет по набору документов</MenuItem>
-              </Select>
-            </FormControl> 
+            <Grid item>
+              <Typography variant="h6">
+                Тип отчета
+              </Typography> 
+
+              <FormControl className={classes.typeField}>
+                <Select
+                  required 
+                  value={reportType}
+                  onChange={handleDataTypeChange}
+                >
+                  <MenuItem value='none'>Произвольный отчет</MenuItem>
+                  <MenuItem value={VARIABLE_TYPE_SELECT.name}>Отчет по документу</MenuItem>
+                  <MenuItem value={VARIABLE_TYPE_MULTIPLE_SELECT.name}>Отчет по набору документов</MenuItem>
+                </Select>
+              </FormControl>   
+            </Grid>    
           }
         </Grid>
-
-        {dialog}
+      </main>
     </React.Fragment>
   );
 }

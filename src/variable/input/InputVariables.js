@@ -9,31 +9,23 @@ import useInputVariables from './useInputVariables';
 export default function InputVariables(props) {
   const content = (formik) =>
     <React.Fragment>
-      {formik.values.map((variable, i) => {
+      <CloseDialogTitle onClose={props.onCancel}>Укажите параметры</CloseDialogTitle>
+      <DialogContent>
+        {formik.values.map((variable, i) => {
           return (
-            <React.Fragment>
-              <CloseDialogTitle onClose={props.onCancel}>Укажите параметры</CloseDialogTitle>
-              <DialogContent>
-                {formik.values.map((variable, i) => {
-                  return (
-                    <div key={i}>
-                      <InputVariable report={props.report} 
-                        variable={variable} 
-                        onChange={(value) => formik.setFieldValue(`[${i}]`, value)}
-                        name={`[${i}]`}/>
-                    </div>
-                  );
-                })}
-              </DialogContent>
-
-              <DialogActions>
-                <Button type="submit" color='primary'>OK</Button>
-              </DialogActions>
-            </React.Fragment>
+            <div key={i}>
+              <InputVariable report={props.report} 
+                variable={variable} 
+                onChange={(value) => formik.setFieldValue(`[${i}]`, value)}
+                name={`[${i}]`}/>
+            </div>
           );
         })}
+      </DialogContent>
 
-      <Button type="submit" color='primary'>OK</Button>
+      <DialogActions>
+        <Button type="submit" color='primary'>Запустить</Button>
+      </DialogActions>
     </React.Fragment>;
   
   const inputVariableForm = useInputVariables(props.report, props.onOk, content);

@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import { getSqlQueryItems } from '../../dataSets/DataSetAPI';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+const useStyles = makeStyles((theme) => ({
+  formField: {
+    width: 500,
+  },
+}));
+
 export default function SelectInputVariable(props) {
+  const classes = useStyles();
+
   const dataSource = props.report.dataSources.find(x => x.name === props.variable.data.dataSet.data.dataSourceName);
   const query = props.variable.data.dataSet.data.query;
   const captionField = props.variable.data.captionField;
@@ -43,13 +52,13 @@ export default function SelectInputVariable(props) {
         multiple = {props.multiple}
         options={items}
         getOptionLabel={(option) => option[captionField]}
-        style={{ width: 300 }}
         onChange={handleChange}
         inputValue={inputValue}
         loading={loading}
         onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
         renderInput={(params) => 
         <TextField 
+        className={classes.formField}
           {...params} 
           label={props.variable.label} 
           InputProps={{

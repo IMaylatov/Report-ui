@@ -10,13 +10,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import FormControl from '@material-ui/core/FormControl';
 import { useFormik } from 'formik';
-import SelectDataVariable from './custom/SelectDataVariable';
+import SelectDataVariable from './SelectDataVariable';
 import { VARIABLE_TYPE_SELECT, VARIABLE_TYPE_MULTIPLE_SELECT, VARIABLE_TYPES } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
-  textField: {
-    margin: theme.spacing(1)
-  },
+  formField: {
+    width: 300
+  }
 }));
 
 const validate = (report, preValue, values) => {
@@ -88,27 +88,25 @@ export default function Variable(props) {
 
       <DialogContent>
         <div>
-          <FormControl>
+          <FormControl className={classes.formField}>
             <TextField value={formik.values.name} onChange={formik.handleChange} 
               required label='Наименование' name='name'
               error={Boolean(formik.errors.name)}
               helperText={formik.errors.name}
-              className={classes.textField}
               disabled={disabletor('name')}/>
           </FormControl>
         </div>
         
         <div>
-          <FormControl>
+          <FormControl className={classes.formField}>
             <TextField value={formik.values.label} onChange={formik.handleChange} 
               required label='Заголовок' name='label'
-              className={classes.textField}
               disabled={disabletor('label')}/>
           </FormControl>
         </div>
 
         <div>
-          <FormControl >
+          <FormControl className={classes.formField}>
             <TextField
               select
               label="Тип"
@@ -116,7 +114,6 @@ export default function Variable(props) {
               value={formik.values.type}
               onChange={handleTypeChange}
               name='type'
-              className={classes.textField}
               disabled={disabletor('type')}
             >
               {VARIABLE_TYPES.map((type) => (

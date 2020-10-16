@@ -3,7 +3,6 @@ export const getReportTemplates = (reportId) => {
     .then(res => res.json());
 }
 export const addReportTemplate = (reportId, template) => {
-  console.log(template);
   const formData = new FormData();
   formData.append('template', template);
   

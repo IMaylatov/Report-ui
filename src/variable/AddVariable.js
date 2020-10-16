@@ -11,6 +11,6 @@ export default function AddVariable(props) {
   };
 
   return (
-    <Variable report={props.report} value={variable} onSave={props.onSave} onCancel={props.onCancel}/>
+    <Variable report={props.report} value={variable} onSave={props.onSave} onCancel={props.onCancel} disabletor={props.disabletor}/>
   );
 }

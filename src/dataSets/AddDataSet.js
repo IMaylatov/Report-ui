@@ -10,6 +10,6 @@ export default function AddDataSet(props) {
   };
 
   return (
-    <DataSet report={props.report} value={dataSet} onSave={props.onSave} onCancel={props.onCancel} />
+    <DataSet report={props.report} value={dataSet} onSave={props.onSave} onCancel={props.onCancel} disabletor={props.disabletor}/>
   );
 }

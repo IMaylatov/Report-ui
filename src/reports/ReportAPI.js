@@ -41,7 +41,11 @@ export const runReport = (report, template, variables) => {
   
   formData.append('report', JSON.stringify(report));
   formData.append('template', template.data);
-  formData.append('variables', JSON.stringify(variables));
+  formData.append('variableValues', 
+    JSON.stringify(variables.map(variable => { 
+      return { name: variable.name, value: variable.value } 
+    }
+  )));
 
   return fetch('/api/run/report', {
     method: 'POST',
@@ -52,7 +56,11 @@ export const runReport = (report, template, variables) => {
 export const runReportById = (reportId, variables) => {
   const formData = new FormData();
   
-  formData.append('variables', JSON.stringify(variables));
+  formData.append('variableValues', 
+    JSON.stringify(variables.map(variable => { 
+      return { name: variable.name, value: variable.value } 
+    }
+  )));
 
   return fetch(`/api/run/report/${reportId}`, {
     method: 'POST',

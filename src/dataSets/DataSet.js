@@ -14,8 +14,8 @@ import { useFormik } from 'formik';
 import { DATASET_TYPE_SQLQUERY, DATASET_TYPES } from '../constants';
 
 const useStyles = makeStyles({
-  textField: {
-    'width': '200px'
+  formField: {
+    width: 200
   }
 });
 
@@ -74,7 +74,7 @@ export default function DataSet(props) {
 
       <DialogContent>
         <div>
-          <FormControl fullWidth className={classes.textField}>
+          <FormControl className={classes.formField}>
             <TextField value={formik.values.name} onChange={formik.handleChange} 
               required label='Наименование' name='name'
               error={Boolean(formik.errors.name)}
@@ -84,7 +84,7 @@ export default function DataSet(props) {
         </div>
 
         <div>
-          <FormControl fullWidth className={classes.textField}>
+          <FormControl className={classes.formField}>
             <TextField
               select
               label="Тип"

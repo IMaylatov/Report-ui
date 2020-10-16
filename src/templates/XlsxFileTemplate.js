@@ -14,11 +14,15 @@ export default function XlsxFileTemplate(props) {
   }
 
   return (
-    <Grid container direction="row" alignItems="center">
-      <FileInput value={props.template.data} onChange={handleFileChange} />
-      {props.template.data !== null &&
-        <Button component='span' variant="contained" color='primary' onClick={handleDownloadClick}>Скачать файл</Button>
-      }
+    <Grid container direction="row" alignItems="center" spacing={2}>
+      <Grid item>
+        <FileInput value={props.template.data} onChange={handleFileChange} />
+      </Grid>
+      <Grid item>
+        {props.template.data !== null &&
+          <Button component='span' variant="contained" color='primary' onClick={handleDownloadClick}>Скачать файл</Button>
+        }
+      </Grid>
     </Grid>
   )
 }

@@ -6,8 +6,17 @@ export const DATASOURCE_TYPE_MSSQL = 'msSql';
 export const DATASOURCE_TYPE_POSTGRESQL = 'postgreSql';
 
 export const DATASOURCE_TYPES = [
-  DATASOURCE_TYPE_MSSQL
+  DATASOURCE_TYPE_MSSQL,
+  DATASOURCE_TYPE_POSTGRESQL
 ];
+
+export const CONNECTION_TYPE_CONNECTION_STRING = { name: 'connectionString', label: 'Строка подключения' }
+export const CONNECTION_TYPE_TICKET = { name: 'ticket', label: 'Тикен' }
+
+export const CONNECTION_TYPES = [
+  CONNECTION_TYPE_CONNECTION_STRING,
+  CONNECTION_TYPE_TICKET
+]
 
 
 export const DATASET_TYPE_SQLQUERY = 'sqlQuery';
