@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
-import { getSqlQueryItems } from '../../dataSets/DataSetAPI';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { getSelectData } from '../VariableAPI';
 
 const useStyles = makeStyles((theme) => ({
   formField: {
@@ -27,7 +27,7 @@ export default function SelectInputVariable(props) {
 
     (async () => {
       setLoading(true);
-      const newItems = await getSqlQueryItems(dataSource.id, query, captionField, inputValue);
+      const newItems = await getSelectData(dataSource, query, captionField, inputValue);
 
       if (!active) {
         return;
@@ -40,7 +40,7 @@ export default function SelectInputVariable(props) {
     return () => {
       active = false;
     };
-  }, [dataSource.id, query, captionField, inputValue]);
+  }, [dataSource, query, captionField, inputValue]);
 
   const handleChange = (e, value) => {
     props.onChange({...props.variable, value: value });
@@ -52,6 +52,7 @@ export default function SelectInputVariable(props) {
         multiple = {props.multiple}
         options={items}
         getOptionLabel={(option) => option[captionField]}
+        getOptionSelected={(option, value) => option[captionField] === value[captionField]}
         onChange={handleChange}
         inputValue={inputValue}
         loading={loading}
