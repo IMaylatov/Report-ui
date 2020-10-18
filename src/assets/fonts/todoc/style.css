@@ -1,0 +1,251 @@
+@font-face {
+  font-family: 'todoc';
+  src: url('./todoc.woff?g9agqd') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'todoc' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-drop-down-collapsed:before {
+  content: "\71";
+}
+.icon-plus-icon:before {
+  content: "\2b";
+}
+.icon-sort-arrow-up:before {
+  content: "\30";
+}
+.icon-dr-sign-icon:before {
+  content: "\32";
+}
+.icon-sort-arrow-down:before {
+  content: "\39";
+}
+.icon-carousel-left-icon:before {
+  content: "\3c";
+}
+.icon-hamburger-icon:before {
+  content: "\3d";
+}
+.icon-carousel-right-icon:before {
+  content: "\3e";
+}
+.icon-attention-icon:before {
+  content: "\41";
+}
+.icon-bell-todoc-icon:before {
+  content: "\42";
+}
+.icon-child-clinic-icon:before {
+  content: "\43";
+}
+.icon-call-doctor:before {
+  content: "\44";
+}
+.icon-edit-icon:before {
+  content: "\45";
+}
+.icon-favorite-icon:before {
+  content: "\46";
+}
+.icon-basket-icon:before {
+  content: "\47";
+}
+.icon-health-icon:before {
+  content: "\48";
+}
+.icon-health-icon-2:before {
+  content: "\49";
+}
+.icon-exchange:before {
+  content: "\4b";
+}
+.icon-calendar-end:before {
+  content: "\4c";
+}
+.icon-preview:before {
+  content: "\4d";
+}
+.icon-new-window:before {
+  content: "\4e";
+}
+.icon-check-icon:before {
+  content: "\4f";
+}
+.icon-pill-icon:before {
+  content: "\50";
+}
+.icon-rating-icon:before {
+  content: "\52";
+}
+.icon-certificate-icon:before {
+  content: "\53";
+}
+.icon-help-tooltip:before {
+  content: "\54";
+}
+.icon-login:before {
+  content: "\55";
+}
+.icon-registration-icon:before {
+  content: "\57";
+}
+.icon-referral-2:before {
+  content: "\59";
+}
+.icon-sign-in:before {
+  content: "\5d";
+}
+.icon-add-record:before {
+  content: "\61";
+}
+.icon-calendar-begin:before {
+  content: "\62";
+}
+.icon-vaccination-calendar-icon:before {
+  content: "\63";
+}
+.icon-dispanserisation-icon:before {
+  content: "\64";
+}
+.icon-login-logout:before {
+  content: "\65";
+}
+.icon-favorit-icon:before {
+  content: "\66";
+}
+.icon-geo-pin-icon:before {
+  content: "\67";
+}
+.icon-med-history-icon:before {
+  content: "\68";
+}
+.icon-information-icon-2:before {
+  content: "\69";
+}
+.icon-dovrachebny-kabinet:before {
+  content: "\6b";
+}
+.icon-arrow-left-icon:before {
+  content: "\6c";
+}
+.icon-index:before {
+  content: "\6d";
+}
+.icon-right-arrow-small-icon:before {
+  content: "\6e";
+}
+.icon-check-icon1:before {
+  content: "\6f";
+}
+.icon-paid-services-icon:before {
+  content: "\70";
+}
+.icon-arrow-right-icon:before {
+  content: "\72";
+}
+.icon-search-icon:before {
+  content: "\73";
+}
+.icon-tooth-clinic-icon:before {
+  content: "\74";
+}
+.icon-selector-up-icon:before {
+  content: "\75";
+}
+.icon-selector-down-icon:before {
+  content: "\76";
+}
+.icon-waiting-list-icon:before {
+  content: "\77";
+}
+.icon-close-icon:before {
+  content: "\78";
+}
+.icon-search-settings:before {
+  content: "\79";
+}
+.icon-timer-icon:before {
+  content: "\7a";
+}
+.icon-view-icon:before {
+  content: "\7b";
+}
+.icon-userman-2:before {
+  content: "\411";
+}
+.icon-userwoman:before {
+  content: "\416";
+}
+.icon-userboy:before {
+  content: "\41c";
+}
+.icon-sent:before {
+  content: "\41e";
+}
+.icon-printer:before {
+  content: "\41f";
+}
+.icon-created:before {
+  content: "\421";
+}
+.icon-userman-chain-3:before {
+  content: "\431";
+}
+.icon-userwoman-chain:before {
+  content: "\436";
+}
+.icon-correct:before {
+  content: "\438";
+}
+.icon-arrow-line-right:before {
+  content: "\43a";
+}
+.icon-drags-colored:before {
+  content: "\43b";
+}
+.icon-meropriyatiya-colored:before {
+  content: "\43c";
+}
+.icon-play:before {
+  content: "\43d";
+}
+.icon-protsedury-colored:before {
+  content: "\43f";
+}
+.icon-star-icon:before {
+  content: "\440";
+}
+.icon-copy-icon:before {
+  content: "\441";
+}
+.icon-deleted:before {
+  content: "\443";
+}
+.icon-fix:before {
+  content: "\444";
+}
+.icon-minus-icon:before {
+  content: "\2013";
+}
+.icon-rouble-icon:before {
+  content: "\20bd";
+}
+.icon-three-dots:before {
+  content: "\2234";
+}
