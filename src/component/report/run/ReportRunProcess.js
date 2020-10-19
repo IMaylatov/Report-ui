@@ -1,13 +1,15 @@
 import React from 'react';
 import CloseDialogTitle from '../../common/CloseDialogTitle';
-import { DialogContent } from '@material-ui/core';
+import { DialogContent, Box, CircularProgress } from '@material-ui/core';
 
 export default function ReportRunProcess(props) {
   return (
     <React.Fragment>
       <CloseDialogTitle onClose={props.onCancel}>Процесс выполнения</CloseDialogTitle>
       <DialogContent>
-        loading...
+        <Box display='flex' justifyContent='center'>
+          <CircularProgress />
+        </Box>
       </DialogContent>
     </React.Fragment>
   );

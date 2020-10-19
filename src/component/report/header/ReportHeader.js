@@ -42,7 +42,6 @@ export default function ReportHeader(props) {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Toolbar />
     </React.Fragment>
   );
 }

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Paper, InputBase, Grid, Box, IconButton } from '@material-ui/core';
 import SearchIcon from '../../common/icons/SearchIcon';
 import ReportHeader from './ReportHeader';
+import DebounceInput from 'react-debounce-input';
 
 const useStyles = makeStyles((theme) => ({
   searchField: {
@@ -27,8 +28,11 @@ export default function ReportHeaderSearch(props) {
             <IconButton>
               <SearchIcon />
             </IconButton>
-            <InputBase value={props.searchText} onChange={(e) => props.onSearchTextChange(e.target.value)}
-              fullWidth placeholder="Поиск"/>
+            <DebounceInput
+              debounceTimeout={300}
+              element={InputBase}
+              value={props.searchText} onChange={(e) => props.onSearchTextChange(e.target.value)}
+              fullWidth placeholder="Поиск" />
           </Paper>
         </Box>
       </Grid>

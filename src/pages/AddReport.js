@@ -4,7 +4,8 @@ import {
   Button,
   Grid,
   Container,
-  Box
+  Box,
+  Toolbar
 } from '@material-ui/core';
 import { REPORT_TYPES, REPORT_TYPE_MALIBU } from '../constants';
 import Report from '../component/report/Report';
@@ -51,6 +52,7 @@ export default function AddReport() {
       {report.type === '' ?
         <React.Fragment>
           <ReportHeader title='Отчеты'/>
+          <Toolbar />
 
           <Container maxWidth="lg">
             <Box m={2}>

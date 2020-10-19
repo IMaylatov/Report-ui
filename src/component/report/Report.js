@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ClosedXmlReport from './ClosedXmlReport';
 import MalibuReport from './MalibuReport';
@@ -15,6 +15,7 @@ import ReportHeaderOperation from './header/ReportHeaderOperation';
 import { Drawer, Toolbar } from '@material-ui/core';
 import ReportExplorer from './ReportExplorer';
 import { useSnackbar } from 'notistack';
+import CircularProgressBackdrop from '../common/CircularProgressBackdrop';
 
 const drawerWidth = 240;
 
@@ -36,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  loader: {
+    zIndex: theme.zIndex.snackbar + 1,
+  }
 }));
 
 const malibuDisabledFields = [
@@ -59,10 +63,12 @@ export default function Report(props) {
   const history = useHistory();
   const [dialog, { setDialogContent, setOpenDialog }] = useDialog({maxWidthDialog: undefined});
   const { enqueueSnackbar } = useSnackbar();
+  const [isOpenBackdrop, setIsOpenBackdrop] = useState(false);
   
   const formik = useFormik({
     initialValues: props.value,
     onSubmit: values => {
+      setIsOpenBackdrop(true);
       const { report, template } = values;
       let reportOperation = report.id === 0
         ? addReport(report)
@@ -74,8 +80,10 @@ export default function Report(props) {
               .then(res => history.replace(`${report.id}`))
               .catch(error => {
                 enqueueSnackbar(`Ошибка сохранения шаблона: ${error}`, { variant: 'error' });
-              });
+              })
+              .finally(x => setIsOpenBackdrop(false));
           } else {
+            setIsOpenBackdrop(false);
             history.replace(`${report.id}`);
           }
         } else {          
@@ -83,16 +91,19 @@ export default function Report(props) {
             updateReportTemplate(report.id, template.id, template.data)
               .catch(error => {
                 enqueueSnackbar(`Ошибка сохранения шаблона: ${error}`, { variant: 'error' });
-              });
+              })
+              .finally(x => setIsOpenBackdrop(false));
           } else {
             deleteReportTemplate(report.id, template.id)
               .catch(error => {
                 enqueueSnackbar(`Ошибка удаления шаблона: ${error}`, { variant: 'error' });
-              });
+              })
+              .finally(x => setIsOpenBackdrop(false));
           }
         }
       })
       .catch(error => {
+        setIsOpenBackdrop(false);
         enqueueSnackbar(`Ошибка сохранения отчета: ${error}`, { variant: 'error' });
       });
     }
@@ -112,7 +123,6 @@ export default function Report(props) {
     default:
       break;
   }
-
       
   const sendRunReport = (variables) => {
     runReport(formik.values.report, formik.values.template, variables)
@@ -171,6 +181,8 @@ export default function Report(props) {
       </main>
 
       {dialog}
+      
+      <CircularProgressBackdrop  open={isOpenBackdrop}/>
     </form> 
   );
 }

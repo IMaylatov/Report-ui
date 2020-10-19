@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getReportById, runReportById } from '../service/ReportAPI';
 import ReportRunCard from '../component/report/run/ReportRunCard';
 import ReportHeader from '../component/report/header/ReportHeader';
-import { Container, Box } from '@material-ui/core';
+import { Container, Box, Toolbar } from '@material-ui/core';
 import download from 'downloadjs';
 import { useDialog } from '../hooks';
 import ReportRunProcess from '../component/report/run/ReportRunProcess';
@@ -44,11 +44,12 @@ export default function ReportRun(props) {
 
   return (
     <React.Fragment>
-      <ReportHeader />
+      <ReportHeader title='Отчеты'/>
+      <Toolbar />
 
       {report && 
-        <Container maxWidth="lg">
-          <Box m={2} display="flex" justifyContent="center">
+        <Container maxWidth="sm">
+          <Box m={2}>
             <ReportRunCard report={report} onSubmit={handleSubmit}/>
           </Box>
         </Container>

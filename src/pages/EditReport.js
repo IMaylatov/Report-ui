@@ -5,6 +5,8 @@ import { getReportTemplates, getReportTemplateDataById } from '../service/Templa
 import Report from '../component/report/Report';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import ReportHeader from '../component/report/header/ReportHeader';
+import { Box, CircularProgress } from '@material-ui/core';
 
 export default function EditReport() {
   const { reportId } = useParams();
@@ -44,8 +46,14 @@ export default function EditReport() {
 
   return (
     <React.Fragment>
-      {report && template &&
-        <Report value={{ report, template }}/>
+      {report && template ?
+        <Report value={{ report, template }}/> :
+        <React.Fragment>
+          <ReportHeader title='Отчеты'/>
+          <Box display='flex' justifyContent='center'>
+            <CircularProgress />
+          </Box>
+        </React.Fragment>
       }
     </React.Fragment>
   );

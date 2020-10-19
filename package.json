@@ -8,14 +8,17 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "awesome-debounce-promise": "^2.1.0",
     "downloadjs": "^1.4.7",
     "formik": "^2.1.5",
     "iconv-lite": "^0.6.2",
     "notistack": "^1.0.1",
     "react": "^16.13.1",
+    "react-async-hook": "^3.6.2",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "use-constant": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

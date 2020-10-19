@@ -4,6 +4,7 @@ import useDialog from './useDialog';
 import useOperation from './useOperation';
 import useContextMenu from './useContextMenu';
 import useInputVariables from './useInputVariables';
+import useDebouncedSearch from './useDebouncedSearch';
 
 export {
   useMenu,
@@ -11,5 +12,6 @@ export {
   useDialog,
   useOperation,
   useContextMenu,
-  useInputVariables
+  useInputVariables,
+  useDebouncedSearch
 };
