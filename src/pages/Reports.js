@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../component/common/Header';
+import ReportHeaderSearch from '../component/report/header/ReportHeaderSearch';
 import ReportTable from '../component/report/ReportTable';
 import { Button, Container, Grid, Box } from '@material-ui/core';
 import { getReports, deleteReport } from '../service/ReportAPI';
 import { Link } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 
 export default function Reports() {
+  const [searchReportName, setSearchReportName] = useState('');
   const [reports, setReports] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   
   useEffect(() => {
-    getReports()
-      .then(res => {
-        setReports(res);
-        setIsLoaded(true);
+    getReports(searchReportName)
+      .then(res => setReports(res))
+      .catch(error => {
+        enqueueSnackbar(`Ошибка загрузки отчетов: ${error}`, { variant: 'error' });
       });
-  }, []);
+  }, [searchReportName, enqueueSnackbar]);
 
   const handleReportDelete = (report) => {
     deleteReport(report.id)
@@ -23,27 +25,28 @@ export default function Reports() {
         const removeReportIndex = reports.map(x => x.id).indexOf(report.id);
         reports.splice(removeReportIndex, 1);
         setReports([...reports]);
+      })
+      .catch(error => {
+        enqueueSnackbar(`Ошибка удаления отчета: ${error}`, { variant: 'error' });
       });
   }
 
   return (
     <React.Fragment>
-      <Header />
-      
-      {isLoaded &&      
-        <Container maxWidth="lg">
-          <Box m={2}>
-            <Grid container spacing={2} direction='column'>
-              <Grid item xs={12}>
-                <Button component={Link} to='/reports/add' variant="contained" color='primary'>Добавить отчет</Button>
-              </Grid>            
-              <Grid item xs={12}>
-                <ReportTable reports={reports} onDeleteReport={handleReportDelete}/>
-              </Grid>
+      <ReportHeaderSearch title='Отчеты' searchText={searchReportName} onSearchTextChange={setSearchReportName}/>
+          
+      <Container maxWidth="lg">
+        <Box m={2}>
+          <Grid container spacing={2} direction='column'>
+            <Grid item xs={12}>
+              <Button component={Link} to='/reports/add' variant="contained" color='primary'>Добавить отчет</Button>
+            </Grid>            
+            <Grid item xs={12}>
+              <ReportTable reports={reports} onDeleteReport={handleReportDelete}/>
             </Grid>
-          </Box>
-        </Container>
-      }
+          </Grid>
+        </Box>
+      </Container>
     </React.Fragment>
   );
 }

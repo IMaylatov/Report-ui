@@ -11,9 +11,10 @@ import { useDialog } from '../../hooks';
 import ReportRunDialog from './run/ReportRunDialog';
 import download from 'downloadjs';
 import ReportRunProcess from './run/ReportRunProcess';
-import ReportHeader from './ReportHeader';
+import ReportHeaderOperation from './header/ReportHeaderOperation';
 import { Drawer, Toolbar } from '@material-ui/core';
 import ReportExplorer from './ReportExplorer';
+import { useSnackbar } from 'notistack';
 
 const drawerWidth = 240;
 
@@ -57,6 +58,7 @@ export default function Report(props) {
 
   const history = useHistory();
   const [dialog, { setDialogContent, setOpenDialog }] = useDialog({maxWidthDialog: undefined});
+  const { enqueueSnackbar } = useSnackbar();
   
   const formik = useFormik({
     initialValues: props.value,
@@ -69,18 +71,30 @@ export default function Report(props) {
         if (template.id === 0) {
           if (template.data !== null) {
             addReportTemplate(report.id, template.data)
-              .then(res => history.replace(`${report.id}`));
+              .then(res => history.replace(`${report.id}`))
+              .catch(error => {
+                enqueueSnackbar(`Ошибка сохранения шаблона: ${error}`, { variant: 'error' });
+              });
           } else {
             history.replace(`${report.id}`);
           }
         } else {          
           if (template.data !== null) {
-            updateReportTemplate(report.id, template.id, template.data);
+            updateReportTemplate(report.id, template.id, template.data)
+              .catch(error => {
+                enqueueSnackbar(`Ошибка сохранения шаблона: ${error}`, { variant: 'error' });
+              });
           } else {
-            deleteReportTemplate(report.id, template.id);
+            deleteReportTemplate(report.id, template.id)
+              .catch(error => {
+                enqueueSnackbar(`Ошибка удаления шаблона: ${error}`, { variant: 'error' });
+              });
           }
         }
       })
+      .catch(error => {
+        enqueueSnackbar(`Ошибка сохранения отчета: ${error}`, { variant: 'error' });
+      });
     }
   });
 
@@ -106,6 +120,10 @@ export default function Report(props) {
       .then((blob) => {
         setOpenDialog(false);
         download(blob, `${formik.values.report.name}.xlsx`);
+      })
+      .catch(error => {
+        setOpenDialog(false);
+        enqueueSnackbar(`Ошибка формирования отчета: ${error}`, { variant: 'error' });
       });
   } 
 
@@ -128,7 +146,7 @@ export default function Report(props) {
 
   return (
     <form onSubmit={formik.handleSubmit} className={classes.root}>
-      <ReportHeader report={formik.values.report} onChange={(report) => formik.setFieldValue('report', report)}
+      <ReportHeaderOperation report={formik.values.report} onChange={(report) => formik.setFieldValue('report', report)}
         onRunClick={handleRunClick}/>
               
       <Drawer

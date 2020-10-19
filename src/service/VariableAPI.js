@@ -1,3 +1,5 @@
+import { fetchApi } from './fetchHandleError';
+
 export const getSelectData = (dataSource, query, valueField, value) => {
   const formData = new FormData();
   
@@ -7,8 +9,8 @@ export const getSelectData = (dataSource, query, valueField, value) => {
   formData.append('value', value);
   formData.append('take', 100);
   
-  return fetch(`/api/variableType/select/data`, {
-    method: 'POST',
-    body: formData
-  }).then(res => res.json());
+  return fetchApi(`/api/variableType/select/data`, {
+      method: 'POST',
+      body: formData
+    }).then(res => res.json());
 }

@@ -1,15 +1,17 @@
-export const getReports = () => {
-  return fetch("/api/reports")
+import { fetchApi } from './fetchHandleError';
+
+export const getReports = (name) => {
+  return fetchApi(`/api/reports?name=${name}`)
     .then(res => res.json());
 }
 
 export const getReportById = (id) => {  
-  return fetch(`/api/reports/${id}`)
+  return fetchApi(`/api/reports/${id}`)
     .then(res => res.json());
 }
 
 export const addReport = (value) => {
-  return fetch('/api/reports', {
+  return fetchApi('/api/reports', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -20,7 +22,7 @@ export const addReport = (value) => {
 }
 
 export const updateReport = (id, value) => {
-  return fetch(`/api/reports/${id}`, {
+  return fetchApi(`/api/reports/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -31,7 +33,7 @@ export const updateReport = (id, value) => {
 }
 
 export const deleteReport = (id) => {
-  return fetch(`/api/reports/${id}`, {
+  return fetchApi(`/api/reports/${id}`, {
       method: 'DELETE'
     });
 }
@@ -47,10 +49,10 @@ export const runReport = (report, template, variables) => {
     }
   )));
 
-  return fetch('/api/run/report', {
-    method: 'POST',
-    body: formData
-  });
+  return fetchApi('/api/run/report', {
+      method: 'POST',
+      body: formData
+    });
 }
 
 export const runReportById = (reportId, variables) => {
@@ -62,8 +64,8 @@ export const runReportById = (reportId, variables) => {
     }
   )));
 
-  return fetch(`/api/run/report/${reportId}`, {
-    method: 'POST',
-    body: formData
-  });
+  return fetchApi(`/api/run/report/${reportId}`, {
+      method: 'POST',
+      body: formData
+    });
 }

@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { REPORT_TYPES, REPORT_TYPE_MALIBU } from '../constants';
 import Report from '../component/report/Report';
-import Header from '../component/common/Header';
+import ReportHeader from '../component/report/header/ReportHeader';
 
 export default function AddReport() {
   const [report, setReport] = useState({
@@ -50,7 +50,7 @@ export default function AddReport() {
     <React.Fragment>
       {report.type === '' ?
         <React.Fragment>
-          <Header />
+          <ReportHeader title='Отчеты'/>
 
           <Container maxWidth="lg">
             <Box m={2}>

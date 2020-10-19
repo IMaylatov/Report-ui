@@ -4,6 +4,7 @@ import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getSelectData } from '../../../service/VariableAPI';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   formField: {
@@ -21,26 +22,33 @@ export default function SelectInputVariable(props) {
   const [inputValue, setInputValue] = useState('');
   const [items, setItems] = useState([]);
   const [loading, setLoading] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     let active = true;
 
     (async () => {
       setLoading(true);
-      const newItems = await getSelectData(dataSource, query, captionField, inputValue);
+      try
+      {
+        const newItems = await getSelectData(dataSource, query, captionField, inputValue);
 
-      if (!active) {
-        return;
+        if (!active) {
+          return;
+        }
+
+        setItems(newItems);
+        setLoading(false);
+      } catch(error) {
+        setLoading(false);
+        enqueueSnackbar(`Ошибка загрузки набора данных: ${error}`, { variant: 'error' });
       }
-
-      setItems(newItems);
-      setLoading(false);
     })();
 
     return () => {
       active = false;
     };
-  }, [dataSource, query, captionField, inputValue]);
+  }, [dataSource, query, captionField, inputValue, enqueueSnackbar]);
 
   const handleChange = (e, value) => {
     props.onChange({...props.variable, value: value });
@@ -59,7 +67,7 @@ export default function SelectInputVariable(props) {
         onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
         renderInput={(params) => 
         <TextField 
-        className={classes.formField}
+          className={classes.formField}
           {...params} 
           label={props.variable.label} 
           InputProps={{
