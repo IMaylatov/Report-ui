@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Button, Grid, Box } from '@material-ui/core';
+import { AppBar, Toolbar, Button, Grid, Box, IconButton } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import LogoIcon from '../../common/icons/LogoIcon';
 import { signinRedirect, signoutRedirect } from '../../../service/userService'
 import { useSelector } from 'react-redux'
+import LogoutIcon from '../../common/icons/LogoutIcon';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -17,13 +18,30 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "transparent",
     }
+  },
+  loginLink: {
+    color: '#ffffff'
   }
 }));
 
 export default function ReportHeader(props) {
   const classes = useStyles();
 
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector(state => state.auth.user);
+  
+  let userInfo = user ?
+    <Grid container direction='row' justify="space-between" alignItems="center">
+      <Grid item>
+        {user?.profile?.name}
+      </Grid>
+      <Grid item>
+        <IconButton variant='contained' onClick={() => signoutRedirect(user)}>
+          <LogoutIcon />
+        </IconButton>
+      </Grid>
+    </Grid>    
+  :
+    <Button className={classes.loginLink} onClick={() => signinRedirect()}>Войти</Button>;
 
   return (
     <React.Fragment>
@@ -48,10 +66,7 @@ export default function ReportHeader(props) {
 
             <Grid item xs={2}>
               <Box display="flex" justifyContent="flex-end">
-                {user
-                  ? <Button color='primary' variant='contained' onClick={() => signoutRedirect(user)}>Выйти</Button>
-                  : <Button color='primary' variant='contained' onClick={() => signinRedirect()}>Войти</Button>
-                }
+                {userInfo}
               </Box>
             </Grid>
           </Grid>

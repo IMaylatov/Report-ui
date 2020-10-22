@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getSelectData } from '../../../service/VariableAPI';
 import { useSnackbar } from 'notistack';
-import { useDebouncedSearch } from '../../../hooks';
+import { useDebouncedSearch } from '../../../utils';
 
 const useSearchDatas = (dataSource, query, captionField, enqueueSnackbar) => 
   useDebouncedSearch(text => getSelectData(dataSource, query, captionField, text)

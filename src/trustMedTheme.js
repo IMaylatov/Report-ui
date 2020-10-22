@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { ptRootUi, ptRootUiBold, ptRootUiLight, ptRootUiMedium } from '../assets/fonts/ptRootUI';
-import { todoc } from '../assets/fonts/todoc';
-import '../assets/fonts/todoc/style.css';
+import { ptRootUi, ptRootUiBold, ptRootUiLight, ptRootUiMedium } from './assets/fonts/ptRootUI';
+import { todoc } from './assets/fonts/todoc';
+import './assets/fonts/todoc/style.css';
 
 export const trustMedTheme = createMuiTheme({
   palette: {

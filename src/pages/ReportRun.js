@@ -5,7 +5,7 @@ import ReportRunCard from '../component/report/run/ReportRunCard';
 import ReportHeader from '../component/report/header/ReportHeader';
 import { Container, Box, Toolbar } from '@material-ui/core';
 import download from 'downloadjs';
-import { useDialog } from '../hooks';
+import { useDialog } from '../utils';
 import ReportRunProcess from '../component/report/run/ReportRunProcess';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
@@ -31,7 +31,6 @@ export default function ReportRun(props) {
     setDialogContent(<ReportRunProcess />);
     setOpenDialog(true);
     runReportById(report.id, variables)
-      .then(response => response.blob())
       .then((blob) => {
         setOpenDialog(false);
         download(blob, `${report.name}.xlsx`);

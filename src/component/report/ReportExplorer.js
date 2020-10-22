@@ -7,7 +7,7 @@ import Variable from '../variable/Variable';
 import EditIcon from '../common/icons/EditIcon';
 import BasketIcon from '../common/icons/BasketIcon';
 import IconButton from '@material-ui/core/IconButton';
-import { useMenu, useTreeView, useDialog, useOperation } from '../../hooks';
+import { useMenu, useTreeView, useDialog, useOperation } from '../../utils';
 import { DATASET_TYPE_SQLQUERY } from '../../constants';
 import AddDataSource from '../dataSource/AddDataSource';
 import DataSource from '../dataSource/DataSource';

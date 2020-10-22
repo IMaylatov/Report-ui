@@ -2,7 +2,7 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { signinRedirect } from '../service/userService';
-import ErrorBoundary from '../boundary/ErrorBoundary';
+import ErrorBoundary from './errorBoundary';
 
 function ProtectedRoute({ children, component: Component, ...rest }) {
   const user = useSelector(state => state.auth.user)

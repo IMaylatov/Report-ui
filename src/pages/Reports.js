@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import ReportHeaderSearch from '../component/report/header/ReportHeaderSearch';
+import ReportHeader from '../component/report/header/ReportHeader';
 import ReportTable from '../component/report/ReportTable';
-import { Button, Container, Grid, Box, CircularProgress, Toolbar } from '@material-ui/core';
+import { Button, Container, Grid, Box, CircularProgress, Toolbar, TextField, InputAdornment } from '@material-ui/core';
 import { getReports, deleteReport } from '../service/ReportAPI';
 import { Link } from "react-router-dom";
 import { useSnackbar } from 'notistack';
 import CircularProgressBackdrop from '../component/common/CircularProgressBackdrop';
-import { useDebouncedSearch } from '../hooks';
+import { useDebouncedSearch } from '../utils';
+import SearchIcon from '../component/common/icons/SearchIcon';
 
 const useSearchReports = (enqueueSnackbar) => 
   useDebouncedSearch(text => getReports(text)
-    .catch(error => enqueueSnackbar(`Ошибка загрузки отчетов: ${error}`, { variant: 'error' })))
+    .catch(error => { 
+      enqueueSnackbar(`Ошибка загрузки отчетов: ${error}`, { variant: 'error' });
+      throw error;
+    }))
 
 export default function Reports() {
   const [isDeletingReport, setIsDeletingReport] = useState(false);
@@ -34,17 +38,29 @@ export default function Reports() {
 
   return (
     <React.Fragment>
-      <ReportHeaderSearch title='Отчеты' searchText={inputText} onSearchTextChange={setInputText}/>
+      <ReportHeader title='Отчеты' />
       <Toolbar />
           
       <Container maxWidth="lg">
         <Box m={2}>
           <Grid container spacing={2} direction='column'>
             <Grid item xs={12}>
+              <TextField
+                value={inputText} onChange={(e) => setInputText(e.target.value)}
+                fullWidth placeholder="Поиск" 
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}/>
+            </Grid>
+            <Grid item xs={12}>
               <Button component={Link} to='/reports/add' variant="contained" color='primary'>Добавить отчет</Button>
             </Grid>            
             <Grid item xs={12}>
-              <ReportTable reports={searchResults.result ? searchResults.result : []} onDeleteReport={handleReportDelete}/>
+              <ReportTable reports={searchResults.result ? searchResults.result : []} onDeleteReport={handleReportDelete}/>             
               {searchResults.loading &&
                 <Box display='flex' justifyContent='center'>
                   <CircularProgress />

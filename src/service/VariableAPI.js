@@ -1,4 +1,4 @@
-import { fetchApi } from './fetchHandleError';
+import axios from 'axios'
 
 export const getSelectData = (dataSource, query, valueField, value) => {
   const formData = new FormData();
@@ -9,8 +9,6 @@ export const getSelectData = (dataSource, query, valueField, value) => {
   formData.append('value', value);
   formData.append('take', 100);
   
-  return fetchApi(`/api/variableType/select/data`, {
-      method: 'POST',
-      body: formData
-    }).then(res => res.json());
+  return axios.post(`/api/variableType/select/data`, formData)
+    .then(res => res.data);
 }

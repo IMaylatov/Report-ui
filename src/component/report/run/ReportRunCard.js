@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardActions, CardContent, Button, Box } from '@material-ui/core';
-import { useInputVariables } from '../../../hooks';
+import { useInputVariables } from '../../../utils';
 import ReportRunInputVariables from './ReportRunInputVariables';
 
 export default function ReportRunForm(props) {

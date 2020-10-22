@@ -7,7 +7,7 @@ import { addReport, updateReport, runReport } from '../../service/ReportAPI';
 import { addReportTemplate, updateReportTemplate, deleteReportTemplate } from '../../service/TemplateAPI';
 import { useHistory } from "react-router-dom";
 import { useFormik } from 'formik';
-import { useDialog } from '../../hooks';
+import { useDialog } from '../../utils';
 import ReportRunDialog from './run/ReportRunDialog';
 import download from 'downloadjs';
 import ReportRunProcess from './run/ReportRunProcess';
@@ -126,7 +126,6 @@ export default function Report(props) {
       
   const sendRunReport = (variables) => {
     runReport(formik.values.report, formik.values.template, variables)
-      .then(response => response.blob())
       .then((blob) => {
         setOpenDialog(false);
         download(blob, `${formik.values.report.name}.xlsx`);

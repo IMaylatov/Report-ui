@@ -11,12 +11,12 @@ import EditReport from './pages/EditReport'
 import ReportRun from './pages/ReportRun';
 import Error from './pages/Error';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { trustMedTheme } from './theme/trustMedTheme';
+import { trustMedTheme } from './trustMedTheme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { SnackbarProvider } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseButton from './component/common/icons/CloseIcon';
-import ErrorBoundary from './boundary/ErrorBoundary';
+import ErrorBoundary from './utils/errorBoundary';
 import { Provider } from 'react-redux';
 import userManager, { loadUserFromStorage } from './service/userService'
 import store from './store';

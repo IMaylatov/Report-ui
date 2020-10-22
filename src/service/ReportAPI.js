@@ -1,4 +1,3 @@
-import { fetchApi } from './fetchHandleError';
 import axios from 'axios'
 
 export const getReports = (name) => {
@@ -7,36 +6,22 @@ export const getReports = (name) => {
 }
 
 export const getReportById = (id) => {  
-  return fetchApi(`/api/reports/${id}`)
-    .then(res => res.json());
+  return axios.get(`/api/reports/${id}`)
+    .then(res => res.data);
 }
 
 export const addReport = (value) => {
-  return fetchApi('/api/reports', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(value)
-    })
-    .then(res => res.json());
+  return axios.post('/api/reports', value)
+    .then(res => res.data);
 }
 
 export const updateReport = (id, value) => {
-  return fetchApi(`/api/reports/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(value)
-    })
-    .then(res => res.json());
+  return axios.put(`/api/reports/${id}`, value)
+    .then(res => res.data);
 }
 
 export const deleteReport = (id) => {
-  return fetchApi(`/api/reports/${id}`, {
-      method: 'DELETE'
-    });
+  return axios.delete(`/api/reports/${id}`);
 }
 
 export const runReport = (report, template, variables) => {
@@ -50,10 +35,8 @@ export const runReport = (report, template, variables) => {
     }
   )));
 
-  return fetchApi('/api/run/report', {
-      method: 'POST',
-      body: formData
-    });
+  return axios.post('/api/run/report', formData, { responseType: 'blob' })
+    .then(res => new File([res.data], 'fileName'));
 }
 
 export const runReportById = (reportId, variables) => {
@@ -65,8 +48,6 @@ export const runReportById = (reportId, variables) => {
     }
   )));
 
-  return fetchApi(`/api/run/report/${reportId}`, {
-      method: 'POST',
-      body: formData
-    });
+  return axios.post(`/api/run/report/${reportId}`, formData, { responseType: 'blob' })
+    .then(res => new File([res.data], 'fileName'));
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, DialogContent, DialogActions } from '@material-ui/core';
 import CloseDialogTitle from '../../common/CloseDialogTitle';
-import { useInputVariables } from '../../../hooks';
+import { useInputVariables } from '../../../utils';
 import ReportRunInputVariables from './ReportRunInputVariables';
 
 export default function ReportRunDialog(props) {

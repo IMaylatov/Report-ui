@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { storeUser, userExpired, userSignedOut } from '../actions/authActions';
+import { storeUser } from '../actions/authActions';
 import { setAuthHeader } from '../utils/axiosHeaders';
 
 export default function AuthProvider({ userManager: manager, store, children }) {
@@ -20,13 +20,9 @@ export default function AuthProvider({ userManager: manager, store, children }) 
     }
 
     const onAccessTokenExpired = () => {
-      store.dispatch(userExpired());
-      console.log(`user token expired`);
     }
 
     const onUserSignedOut = () => {
-      store.dispatch(userSignedOut());
-      console.log(`user signed out`)
     }
 
     userManager.current.events.addUserLoaded(onUserLoaded)
