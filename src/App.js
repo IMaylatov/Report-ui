@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,59 +17,65 @@ import { SnackbarProvider } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseButton from './component/common/icons/CloseIcon';
 import ErrorBoundary from './boundary/ErrorBoundary';
+import { Provider } from 'react-redux';
+import userManager, { loadUserFromStorage } from './service/userService'
+import store from './store';
+import AuthProvider from './utils/authProvider'
+import PrivateRoute from './utils/protectedRoute'
+import SigninOidc from './pages/signin-oidc'
+import SignoutOidc from './pages/signout-oidc'
 
 function App() {
   const notistackRef = React.createRef();
+  
+  useEffect(() => {
+    loadUserFromStorage(store)
+  }, [])
 
-  return (
-    <ThemeProvider theme={trustMedTheme}>
-      <SnackbarProvider maxSnack={3} 
-        ref={notistackRef}
-        action={(key) => (
-          <IconButton onClick={() => notistackRef.current.closeSnackbar(key)} size='small'>
-            <CloseButton />
-          </IconButton>
-        )}
-      >
-        <CssBaseline />
-        <Router>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => {
-                  return (
-                    <Redirect to="/reports" /> 
-                  )
-              }}
-            />
-            <Route exact path="/reports">
-              <ErrorBoundary>
-                <Reports />
-              </ErrorBoundary>
-            </Route>
-            <Route exact path="/reports/add">              
-              <ErrorBoundary>
-                <AddReport />
-              </ErrorBoundary>
-            </Route>
-            <Route exact path="/reports/:reportId">
-              <ErrorBoundary>
-                <EditReport />
-              </ErrorBoundary>
-            </Route> 
-            <Route exact path="/reports/:reportId/run">                       
-              <ErrorBoundary>
-                <ReportRun />
-              </ErrorBoundary>
-            </Route>
-            <Route exact path="/error">                       
-              <Error />
-            </Route>
-          </Switch>
-        </Router>
-      </SnackbarProvider>
-    </ThemeProvider>
+  return (    
+    <Provider store={store}>
+      <AuthProvider userManager={userManager} store={store}>
+        <ThemeProvider theme={trustMedTheme}>
+          <SnackbarProvider maxSnack={3} 
+            ref={notistackRef}
+            action={(key) => (
+              <IconButton onClick={() => notistackRef.current.closeSnackbar(key)} size='small'>
+                <CloseButton />
+              </IconButton>
+            )}
+          >
+            <CssBaseline />
+            <Router>
+              <Switch>
+                <Route path="/signout-oidc" component={SignoutOidc} />
+                <Route path="/signin-oidc" component={SigninOidc} />
+                <Route
+                  exact
+                  path="/"
+                  render={() => {
+                      return (
+                        <Redirect to="/reports" /> 
+                      )
+                  }}
+                />                
+                
+                <Route exact path="/reports">              
+                  <ErrorBoundary>
+                    <Reports />
+                  </ErrorBoundary>
+                </Route>
+                <PrivateRoute exact path="/reports/add" component={AddReport} />
+                <PrivateRoute exact path="/reports/:reportId" component={EditReport} />
+                <PrivateRoute exact path="/reports/:reportId/run" component={ReportRun} />
+                <Route exact path="/error">                       
+                  <Error />
+                </Route>
+              </Switch>
+            </Router>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </Provider>
   );
 }
 

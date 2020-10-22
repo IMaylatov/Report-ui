@@ -1,8 +1,9 @@
 import { fetchApi } from './fetchHandleError';
+import axios from 'axios'
 
 export const getReports = (name) => {
-  return fetchApi(`/api/reports?name=${name}`)
-    .then(res => res.json());
+  return axios.get(`/api/reports?name=${name}`)
+    .then(res => res.data);
 }
 
 export const getReportById = (id) => {  
