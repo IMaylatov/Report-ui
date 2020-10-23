@@ -1,31 +1,38 @@
-import axios from 'axios'
+import fetchApi from '../utils/fetchApi';
 
 export const getReportTemplates = (reportId) => {
-  return axios.get(`/api/reports/${reportId}/templates`)
-    .then(res => res.data);
+  return fetchApi(`/api/reports/${reportId}/templates`)
+    .then(res => res.json());
 }
 
 export const addReportTemplate = (reportId, template) => {
   const formData = new FormData();
   formData.append('template', template);
   
-  return axios.post(`/api/reports/${reportId}/templates`, formData)
-    .then(res => res.data);
+  return fetchApi(`/api/reports/${reportId}/templates`, {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json());
 }
 
 export const updateReportTemplate = (reportId, templateid, template) => {
   const formData = new FormData();
   formData.append('template', template);
   
-  return axios.put(`/api/reports/${reportId}/templates/${templateid}`, formData)
-    .then(res => res.data);
+  return fetchApi(`/api/reports/${reportId}/templates/${templateid}`, {
+      method: 'PUT',
+      body: formData
+    })
+    .then(res => res.json());
 }
 
 export const deleteReportTemplate = (reportId, templateid) => {
-  return axios.delete(`/api/reports/${reportId}/templates/${templateid}`);
+  return fetchApi(`/api/reports/${reportId}/templates/${templateid}`, {
+    method: 'DELETE'
+  });
 }
 
 export const getReportTemplateDataById = (reportId, templateId) => {
-  return axios.get(`/api/reports/${reportId}/templates/${templateId}/data`, { responseType: 'blob' })
-    .then(res => new File([res.data], 'fileName'));
+  return fetchApi(`/api/reports/${reportId}/templates/${templateId}/data`);
 }

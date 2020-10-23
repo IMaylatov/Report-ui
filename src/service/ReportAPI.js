@@ -1,27 +1,41 @@
-import axios from 'axios'
+import fetchApi from '../utils/fetchApi';
 
 export const getReports = (name) => {
-  return axios.get(`/api/reports?name=${name}`)
-    .then(res => res.data);
+  return fetchApi(`/api/reports?name=${name}`)
+    .then(res => res.json());
 }
 
 export const getReportById = (id) => {  
-  return axios.get(`/api/reports/${id}`)
-    .then(res => res.data);
+  return fetchApi(`/api/reports/${id}`)
+    .then(res => res.json());
 }
 
 export const addReport = (value) => {
-  return axios.post('/api/reports', value)
-    .then(res => res.data);
+  return fetchApi('/api/reports', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(value)
+    })
+    .then(res => res.json());
 }
 
 export const updateReport = (id, value) => {
-  return axios.put(`/api/reports/${id}`, value)
-    .then(res => res.data);
+  return fetchApi(`/api/reports/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(value)
+    })
+    .then(res => res.json());
 }
 
 export const deleteReport = (id) => {
-  return axios.delete(`/api/reports/${id}`);
+  return fetchApi(`/api/reports/${id}`, {
+      method: 'DELETE'
+    });
 }
 
 export const runReport = (report, template, variables) => {
@@ -35,8 +49,10 @@ export const runReport = (report, template, variables) => {
     }
   )));
 
-  return axios.post('/api/run/report', formData, { responseType: 'blob' })
-    .then(res => new File([res.data], 'fileName'));
+  return fetchApi('/api/run/report', {
+      method: 'POST',
+      body: formData
+    });
 }
 
 export const runReportById = (reportId, variables) => {
@@ -48,6 +64,8 @@ export const runReportById = (reportId, variables) => {
     }
   )));
 
-  return axios.post(`/api/run/report/${reportId}`, formData, { responseType: 'blob' })
-    .then(res => new File([res.data], 'fileName'));
+  return fetchApi(`/api/run/report/${reportId}`, {
+      method: 'POST',
+      body: formData
+    });
 }
