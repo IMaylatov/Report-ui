@@ -18,7 +18,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseButton from './component/common/icons/CloseIcon';
 import ErrorBoundary from './utils/errorBoundary';
 import { Callback } from './pages/auth/callback';
-import { Logout } from './pages/auth/logout';
 import { LogoutCallback } from './pages/auth/logoutCallback';
 import { SilentRenew } from './pages/auth/silentRenew';
 import { PrivateRoute } from './utils/privateRoute';
@@ -42,7 +41,6 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/signin-oidc" component={Callback} />
-              <Route exact path="/logout" component={Logout} />
               <Route exact path="/logout/callback" component={LogoutCallback} />
               <Route exact path="/silentrenew" component={SilentRenew} />
               

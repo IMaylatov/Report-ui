@@ -12,13 +12,12 @@ export default class AuthService {
       
       Log.logger = console;
       Log.level = Log.DEBUG;
-      
+
       this.UserManager.events.addSilentRenewError((e) => {
         console.log("silent renew error", e.message);
       });
 
       this.UserManager.events.addAccessTokenExpired(() => {
-        console.log("token expired");
         this.signinSilent();
       });
     }
@@ -59,7 +58,6 @@ export default class AuthService {
     signinSilent = () => {
       this.UserManager.signinSilent()
         .then((user) => {
-            console.log("signed in", user);
         })
         .catch((err) => {
             console.log(err);

@@ -4,5 +4,6 @@ export const IDENTITY_CONFIG = {
   redirect_uri: process.env.REACT_APP_REDIRECT_URL,
   response_type: "id_token token",
   scope: "openid profile softrust_report_api",
-  post_logout_redirect_uri: process.env.REACT_APP_LOGOFF_REDIRECT_URL
+  post_logout_redirect_uri: process.env.REACT_APP_LOGOFF_REDIRECT_URL,
+  silent_redirect_uri: process.env.REACT_APP_SILENT_REDIRECT_URL,
 };
