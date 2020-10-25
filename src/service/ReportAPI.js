@@ -38,10 +38,11 @@ export const deleteReport = (id) => {
     });
 }
 
-export const runReport = (report, template, variables) => {
+export const runReport = (report, host, template, variables) => {
   const formData = new FormData();
   
   formData.append('report', JSON.stringify(report));
+  formData.append('host', host);
   formData.append('template', template.data);
   formData.append('variableValues', 
     JSON.stringify(variables.map(variable => { 
@@ -55,7 +56,7 @@ export const runReport = (report, template, variables) => {
     });
 }
 
-export const runReportById = (reportId, variables) => {
+export const runReportById = (reportId, host, variables) => {
   const formData = new FormData();
   
   formData.append('variableValues', 
@@ -63,6 +64,7 @@ export const runReportById = (reportId, variables) => {
       return { name: variable.name, value: variable.value } 
     }
   )));
+  formData.append('host', host);
 
   return fetchApi(`/api/run/report/${reportId}`, {
       method: 'POST',

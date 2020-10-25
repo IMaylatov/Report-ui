@@ -10,12 +10,25 @@ function updateOptions(options) {
   const token = oidcStorage?.access_token;
 
   const update = { ...options };
+
   if (token) {
     update.headers = {
       ...update.headers,
       Authorization: `Bearer ${token}`,
     };
+    return update;
   }
+  
+  const stUser = JSON.parse(localStorage.getItem('st.user'));
+  const stHost = stUser?.host;
+
+  if (stHost) {
+    update.headers = {
+      ...update.headers,
+      Authorization: `StHost ${stHost}`,
+    };
+  }
+
   return update;
 }
 

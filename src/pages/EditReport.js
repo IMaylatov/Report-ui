@@ -28,6 +28,7 @@ export default function EditReport() {
         if (templates.length > 0) {
           const templateId = templates[0].id;
           getReportTemplateDataById(reportId, templateId)
+            .then(res => res.blob())
             .then((blob) => setTemplate({ id: templateId, data: blob }))
             .catch(error => {
               setTemplate({ id: 0, data: null });

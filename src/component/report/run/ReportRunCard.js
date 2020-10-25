@@ -9,7 +9,7 @@ export default function ReportRunForm(props) {
       <CardHeader title={'Укажите параметры'} />      
 
       <CardContent>
-        <ReportRunInputVariables report={props.report} formik={formik} />
+        <ReportRunInputVariables report={props.report} host={props.host} formik={formik} />
       </CardContent>
 
       <CardActions>

@@ -16,11 +16,11 @@ export const DATASOURCE_TYPES = [
 ];
 
 export const CONNECTION_TYPE_CONNECTION_STRING = { name: 'connectionString', label: 'Строка подключения' }
-export const CONNECTION_TYPE_TICKET = { name: 'ticket', label: 'Тикет' }
+export const CONNECTION_TYPE_HOST = { name: 'host', label: 'Хост' }
 
 export const CONNECTION_TYPES = [
   CONNECTION_TYPE_CONNECTION_STRING,
-  CONNECTION_TYPE_TICKET
+  CONNECTION_TYPE_HOST
 ]
 
 

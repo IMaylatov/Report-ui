@@ -1,5 +1,5 @@
 import { IDENTITY_CONFIG } from "../utils/authConst";
-import { UserManager, WebStorageStateStore, Log } from "oidc-client";
+import { UserManager, WebStorageStateStore, Log, User } from "oidc-client";
 
 export default class AuthService {
     UserManager;
@@ -25,15 +25,25 @@ export default class AuthService {
     signinRedirectCallback = () => {
       this.UserManager.signinRedirectCallback().then(() => {
         const redirectUri = localStorage.getItem("redirectUri");
-        localStorage.clear();
+        localStorage.removeItem("redirectUri");
         window.location.replace(redirectUri);
       });
     };
 
     getUser = async () => {
-      const user = await this.UserManager.getUser();
-      if (!user) {
-          return await this.UserManager.signinRedirectCallback();
+      let user = await this.UserManager.getUser();
+      if (user) {
+        return user;
+      }
+      const lsStUser = localStorage.getItem('st.user');
+      if (lsStUser) {
+        const stUser = JSON.parse(lsStUser);
+        user = new User({
+          id_token: '',
+          profile: {
+            name: stUser.name
+          }
+        });
       }
       return user;
     };
@@ -51,8 +61,9 @@ export default class AuthService {
 
     isAuthenticated = () => {
       const oidcStorage = JSON.parse(sessionStorage.getItem(`oidc.user:${process.env.REACT_APP_AUTH_URL}:${process.env.REACT_APP_IDENTITY_CLIENT_ID}`))
+      const stUser = localStorage.getItem('st.user');
 
-      return (!!oidcStorage && !!oidcStorage.id_token)
+      return (!!oidcStorage && !!oidcStorage.id_token) || stUser;
     };
 
     signinSilent = () => {
@@ -86,4 +97,10 @@ export default class AuthService {
       });
       this.UserManager.clearStaleState();
     };
+
+    signinRedirectCallbackToRedirectUri = () => {
+      const redirectUri = localStorage.getItem("redirectUri");
+      localStorage.removeItem("redirectUri");
+      window.location.replace(redirectUri);
+    }
 }

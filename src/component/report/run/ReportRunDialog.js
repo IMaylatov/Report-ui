@@ -10,7 +10,7 @@ export default function ReportRunDialog(props) {
       <CloseDialogTitle onClose={props.onCancel}>Укажите параметры</CloseDialogTitle>
       
       <DialogContent>
-        <ReportRunInputVariables report={props.report} formik={formik} />
+        <ReportRunInputVariables report={props.report} host={props.host} formik={formik} />
       </DialogContent>
 
       <DialogActions>

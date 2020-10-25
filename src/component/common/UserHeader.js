@@ -12,13 +12,14 @@ const useStyles = makeStyles((theme) => ({
 export default function UserHeader(props) {
   const classes = useStyles();
   const [user, setUser] = useState(null);
+  const { getUser } = props;
 
   useEffect(() => {
     if (props.isAuthenticated) {
-      props.UserManager.getUser()
+      getUser()
         .then(user => setUser(user));
     }
-  }, [props.isAuthenticated, props.UserManager]);
+  }, [props.isAuthenticated, getUser]);
 
   return (props.isAuthenticated ?
     <Grid container direction='row' justify="space-between" alignItems="center">

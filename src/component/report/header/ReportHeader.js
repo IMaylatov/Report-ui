@@ -46,8 +46,8 @@ export default function ReportHeader(props) {
           <Grid item xs={2}>
             <Box display="flex" justifyContent="flex-end">
               <AuthConsumer>
-                {({ isAuthenticated, UserManager, signinRedirect, logout }) => {
-                  return <UserHeader isAuthenticated={isAuthenticated()} UserManager={UserManager} 
+                {({ isAuthenticated, getUser, signinRedirect, logout }) => {
+                  return <UserHeader isAuthenticated={isAuthenticated()} getUser={getUser} 
                     signinRedirect={signinRedirect} logout={logout}/>;
                 }}
               </AuthConsumer>

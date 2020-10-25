@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ClosedXmlReport from './ClosedXmlReport';
 import MalibuReport from './MalibuReport';
-import { REPORT_TYPE_CLOSEDXML, REPORT_TYPE_MALIBU } from '../../constants';
+import { REPORT_TYPE_CLOSEDXML, REPORT_TYPE_MALIBU, CONNECTION_TYPE_HOST } from '../../constants';
 import { addReport, updateReport, runReport } from '../../service/ReportAPI';
 import { addReportTemplate, updateReportTemplate, deleteReportTemplate } from '../../service/TemplateAPI';
 import { useHistory } from "react-router-dom";
@@ -16,6 +16,7 @@ import { Drawer, Toolbar } from '@material-ui/core';
 import ReportExplorer from './ReportExplorer';
 import { useSnackbar } from 'notistack';
 import CircularProgressBackdrop from '../common/CircularProgressBackdrop';
+import ReportHostDialog from './host/ReportHostDialog';
 
 const drawerWidth = 240;
 
@@ -124,8 +125,9 @@ export default function Report(props) {
       break;
   }
       
-  const sendRunReport = (variables) => {
-    runReport(formik.values.report, formik.values.template, variables)
+  const sendRunReport = (host, variables) => {
+    runReport(formik.values.report, host, formik.values.template, variables)
+      .then(res => res.blob())
       .then((blob) => {
         setOpenDialog(false);
         download(blob, `${formik.values.report.name}.xlsx`);
@@ -136,20 +138,32 @@ export default function Report(props) {
       });
   } 
 
-  const handleInputVariables = (variables) => {
+  const handleInputVariables = (host, variables) => {
     setDialogContent(<ReportRunProcess />);
-    sendRunReport(variables);
+    sendRunReport(host, variables);
   }
 
-  const handleRunClick = (e) => {
+  const handleInputVariablesDialog = (host) => {
     if (formik.values.report.variables.length > 0) {
       setDialogContent(<ReportRunDialog 
         report={formik.values.report}
-        onOk={handleInputVariables}
+        host={host}
+        onOk={(variables) => handleInputVariables(host, variables)}
         onCancel={(e) => setOpenDialog(false)}/>);
       setOpenDialog(true);
     } else {      
-      sendRunReport([]);
+      sendRunReport(host, []);
+    }
+  }
+
+  const handleRunClick = (e) => {
+    if (formik.values.report.dataSources.filter(d => d.data.connectionType === CONNECTION_TYPE_HOST.name).length > 0) {
+      setDialogContent(<ReportHostDialog
+        onOk={(host) => handleInputVariablesDialog(host)}
+        onCancel={(e) => setOpenDialog(false)}/>);
+      setOpenDialog(true);
+    } else {
+      handleInputVariablesDialog();
     }
   }
 
