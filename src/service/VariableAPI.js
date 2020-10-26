@@ -4,11 +4,8 @@ export const getSelectData = (dataSource, host, query, valueField, value) => {
   const formData = new FormData();
   
   formData.append('dataSource', JSON.stringify(dataSource));
-  formData.append('host', host);
-  formData.append('query', query);
-  formData.append('valueField', valueField);
-  formData.append('value', value);
-  formData.append('take', 100);
+  formData.append('context', JSON.stringify({ host }));
+  formData.append('query', `select top 100 * from (${query}) ${valueField}Tmp where ${valueField} like '%${value}%'`);
   
   return fetchApi(`/api/variableType/select/data`, {
       method: 'POST',
