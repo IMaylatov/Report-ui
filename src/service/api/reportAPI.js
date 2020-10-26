@@ -1,4 +1,4 @@
-import fetchApi from '../utils/fetchApi';
+import fetchApi from './fetchApi';
 
 export const getReports = (name) => {
   return fetchApi(`/api/reports?name=${name}`)

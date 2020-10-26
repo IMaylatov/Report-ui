@@ -1,4 +1,4 @@
-import fetchApi from '../utils/fetchApi';
+import fetchApi from './fetchApi';
 
 export const getReportTemplates = (reportId) => {
   return fetchApi(`/api/reports/${reportId}/templates`)

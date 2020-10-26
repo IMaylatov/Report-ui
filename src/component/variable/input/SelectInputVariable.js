@@ -2,9 +2,9 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { getSelectData } from '../../../service/VariableAPI';
+import { getSelectData } from '../../../service/api/variableAPI';
 import { useSnackbar } from 'notistack';
-import { useDebouncedSearch } from '../../../utils';
+import useDebouncedSearch from '../../common/hooks/useDebouncedSearch';
 
 const useSearchDatas = (dataSource, host, query, captionField, enqueueSnackbar) => 
   useDebouncedSearch(text => getSelectData(dataSource, host, query, captionField, text)

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ClosedXmlReport from './ClosedXmlReport';
 import MalibuReport from './MalibuReport';
-import { REPORT_TYPE_CLOSEDXML, REPORT_TYPE_MALIBU, CONNECTION_TYPE_HOST } from '../../constants';
-import { addReport, updateReport, runReport } from '../../service/ReportAPI';
-import { addReportTemplate, updateReportTemplate, deleteReportTemplate } from '../../service/TemplateAPI';
+import { REPORT_TYPE_CLOSEDXML, REPORT_TYPE_MALIBU, CONNECTION_TYPE_HOST } from '../../utils/const/reportConst';
+import { addReport, updateReport, runReport } from '../../service/api/reportAPI';
+import { addReportTemplate, updateReportTemplate, deleteReportTemplate } from '../../service/api/templateAPI';
 import { useHistory } from "react-router-dom";
 import { useFormik } from 'formik';
-import { useDialog } from '../../utils';
+import useDialog from '../common/hooks/useDialog';
 import ReportRunDialog from './run/ReportRunDialog';
 import download from 'downloadjs';
 import ReportRunProcess from './run/ReportRunProcess';
@@ -16,7 +16,7 @@ import { Drawer, Toolbar } from '@material-ui/core';
 import ReportExplorer from './ReportExplorer';
 import { useSnackbar } from 'notistack';
 import CircularProgressBackdrop from '../common/CircularProgressBackdrop';
-import ReportHostDialog from './host/ReportHostDialog';
+import ReportHostDialog from '../host/InputHostDialog';
 
 const drawerWidth = 240;
 

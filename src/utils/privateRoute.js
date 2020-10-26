@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { AuthConsumer } from "../providers/authProvider";
+import { AuthConsumer } from "../utils/providers/authProvider";
 
 export const PrivateRoute = ({ component, ...rest }) => {
     const renderFn = (Component) => (props) => (

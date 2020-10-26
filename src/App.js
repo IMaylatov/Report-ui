@@ -16,13 +16,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { SnackbarProvider } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseButton from './component/common/icons/CloseIcon';
-import ErrorBoundary from './utils/errorBoundary';
-import { Callback } from './pages/auth/callback';
-import { LogoutCallback } from './pages/auth/logoutCallback';
-import { SilentRenew } from './pages/auth/silentRenew';
+import ErrorBoundary from './utils/boundary/errorBoundary';
+import { Callback } from './pages/auth/Callback';
+import { LogoutCallback } from './pages/auth/LogoutCallback';
+import { SilentRenew } from './pages/auth/SilentRenew';
 import { PrivateRoute } from './utils/privateRoute';
-import { AuthProvider } from './providers/authProvider';
-import SignInHost from './pages/auth/signInHost';
+import { AuthProvider } from './utils/providers/authProvider';
+import SignInHost from './pages/auth/SignInHost';
 
 function App() {
   const notistackRef = React.createRef();

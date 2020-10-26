@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import XlsxFileTemplate from './XlsxFileTemplate';
-import { REPORT_TYPE_CLOSEDXML, REPORT_TYPE_MALIBU } from '../../constants';
+import { REPORT_TYPE_CLOSEDXML, REPORT_TYPE_MALIBU } from '../../utils/const/reportConst';
 
 export default function Template(props) {
   const handleValueChange = (template) => {

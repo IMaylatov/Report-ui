@@ -1,4 +1,4 @@
-import { IDENTITY_CONFIG } from "../utils/authConst";
+import { IDENTITY_CONFIG } from "../utils/const/authConst";
 import { UserManager, WebStorageStateStore, Log, User } from "oidc-client";
 
 export default class AuthService {

@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthConsumer } from "../../providers/authProvider";
+import { AuthConsumer } from "../../utils/providers/authProvider";
 
 export const SilentRenew = () => (
     <AuthConsumer>

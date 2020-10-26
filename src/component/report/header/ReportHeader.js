@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Button, Grid, Box } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import LogoIcon from '../../common/icons/LogoIcon';
-import { AuthConsumer } from '../../../providers/authProvider';
+import { AuthConsumer } from '../../../utils/providers/authProvider';
 import UserHeader from '../../common/UserHeader';
 
 const useStyles = makeStyles((theme) => ({

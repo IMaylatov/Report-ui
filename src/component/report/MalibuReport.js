@@ -16,7 +16,7 @@ import {
   VARIABLE_TYPE_MULTIPLE_SELECT, 
   VARIABLE_TYPE_PERIOD 
 } 
-from '../../constants';
+from '../../utils/const/reportConst';
 
 export default function MalibuReport(props) {
   const documentVariable = props.value.report.variables.find(x => x.name === 'Document');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
-import { getReportById } from '../service/ReportAPI';
+import { getReportById } from '../service/api/reportAPI';
 import { useParams } from "react-router-dom";
-import { getReportTemplates, getReportTemplateDataById } from '../service/TemplateAPI';
+import { getReportTemplates, getReportTemplateDataById } from '../service/api/templateAPI';
 import Report from '../component/report/Report';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';

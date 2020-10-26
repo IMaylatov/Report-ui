@@ -11,7 +11,7 @@ import {
 import CloseDialogTitle from '../common/CloseDialogTitle';
 import { useFormik } from 'formik';
 import SelectDataVariable from './SelectDataVariable';
-import { VARIABLE_TYPE_SELECT, VARIABLE_TYPE_MULTIPLE_SELECT, VARIABLE_TYPES } from '../../constants';
+import { VARIABLE_TYPE_SELECT, VARIABLE_TYPE_MULTIPLE_SELECT, VARIABLE_TYPES } from '../../utils/const/reportConst';
 
 const validate = (report, preValue, values) => {
   const errors = {};

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReportHeader from '../component/report/header/ReportHeader';
+import ReportHeader from '../../component/report/header/ReportHeader';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {

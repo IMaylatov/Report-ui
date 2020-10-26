@@ -9,7 +9,7 @@ import {
   VARIABLE_TYPE_SELECT, 
   VARIABLE_TYPE_MULTIPLE_SELECT, 
   VARIABLE_TYPE_PERIOD
-} from '../../../constants';
+} from '../../../utils/const/reportConst';
 
 export default function InputVariable(props) {
   let variableForm;

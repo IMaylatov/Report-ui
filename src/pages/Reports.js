@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import ReportHeader from '../component/report/header/ReportHeader';
 import ReportTable from '../component/report/ReportTable';
 import { Button, Container, Grid, Box, CircularProgress, Toolbar, TextField, InputAdornment } from '@material-ui/core';
-import { getReports, deleteReport } from '../service/ReportAPI';
+import { getReports, deleteReport } from '../service/api/reportAPI';
 import { Link } from "react-router-dom";
 import { useSnackbar } from 'notistack';
 import CircularProgressBackdrop from '../component/common/CircularProgressBackdrop';
-import { useDebouncedSearch } from '../utils';
+import useDebouncedSearch from '../component/common/hooks/useDebouncedSearch';
 import SearchIcon from '../component/common/icons/SearchIcon';
 
 const useSearchReports = (enqueueSnackbar) => 

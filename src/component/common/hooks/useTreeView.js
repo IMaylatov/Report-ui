@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TreeView, TreeItem } from '@material-ui/lab';
-import SelectorDownIcon from '../component/common/icons/SelectorDownIcon';
-import CarouselRightIcon from '../component/common/icons/CarouselRightIcon';
+import SelectorDownIcon from '../icons/SelectorDownIcon';
+import CarouselRightIcon from '../icons/CarouselRightIcon';
 
 export default function useTreeView(props) {
   const [expanded, setExpanded] = useState([]);

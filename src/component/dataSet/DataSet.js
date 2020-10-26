@@ -11,7 +11,7 @@ import {
 import SqlQueryDataSet from './SqlQueryDataSet';
 import CloseDialogTitle from '../common/CloseDialogTitle';
 import { useFormik } from 'formik';
-import { DATASET_TYPE_SQLQUERY, DATASET_TYPES } from '../../constants';
+import { DATASET_TYPE_SQLQUERY, DATASET_TYPES } from '../../utils/const/reportConst';
 
 const validate = (report, preValue, values) => {
   const errors = {};

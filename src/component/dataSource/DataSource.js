@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import SqlDataSource from './SqlDataSource';
 import { useFormik } from 'formik';
-import { DATASOURCE_TYPES, DATASOURCE_TYPE_MSSQL, DATASOURCE_TYPE_POSTGRESQL } from '../../constants';
+import { DATASOURCE_TYPES, DATASOURCE_TYPE_MSSQL, DATASOURCE_TYPE_POSTGRESQL } from '../../utils/const/reportConst';
 import CloseDialogTitle from '../common/CloseDialogTitle';
 
 export default function DataSource(props) {

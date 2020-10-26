@@ -1,6 +1,6 @@
 import React  from 'react';
 import { TextField, MenuItem, FormControl, Grid } from '@material-ui/core';
-import { CONNECTION_TYPES, CONNECTION_TYPE_CONNECTION_STRING } from '../../constants';
+import { CONNECTION_TYPES, CONNECTION_TYPE_CONNECTION_STRING } from '../../utils/const/reportConst';
 import ConnectionStringConnection from './connection/ConnectionStringConnection';
 
 export default function SqlDataSource(props) {

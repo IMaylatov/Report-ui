@@ -7,7 +7,7 @@ import {
   Box,
   Toolbar
 } from '@material-ui/core';
-import { REPORT_TYPES, REPORT_TYPE_MALIBU } from '../constants';
+import { REPORT_TYPES, REPORT_TYPE_MALIBU } from '../utils/const/reportConst';
 import Report from '../component/report/Report';
 import ReportHeader from '../component/report/header/ReportHeader';
 

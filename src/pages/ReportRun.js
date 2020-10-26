@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { getReportById, runReportById } from '../service/ReportAPI';
+import { getReportById, runReportById } from '../service/api/reportAPI';
 import ReportRunCard from '../component/report/run/ReportRunCard';
 import ReportHeader from '../component/report/header/ReportHeader';
 import { Container, Box, Toolbar } from '@material-ui/core';
 import download from 'downloadjs';
-import { useDialog } from '../utils';
+import { useDialog } from '../component/common/hooks';
 import ReportRunProcess from '../component/report/run/ReportRunProcess';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-import ReportHostCard from '../component/report/host/ReportHostCard';
+import ReportHostCard from '../component/host/InputHostCard';
 
 export default function ReportRun(props) {
   const { reportId } = useParams();

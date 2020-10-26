@@ -1,4 +1,4 @@
-import fetchApi from '../utils/fetchApi';
+import fetchApi from './fetchApi';
 
 export const getSelectData = (dataSource, host, query, valueField, value) => {
   const formData = new FormData();
