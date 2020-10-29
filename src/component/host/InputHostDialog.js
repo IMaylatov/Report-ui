@@ -7,7 +7,7 @@ import {
   TextField
 } from '@material-ui/core';
 
-export default function ReportHostDialog(props) {
+export default function InputHostDialog(props) {
   const [host, setHost] = useState('');
 
   return (
@@ -22,7 +22,7 @@ export default function ReportHostDialog(props) {
       </DialogContent>
 
       <DialogActions>
-        <Button variant='contained' color='primary' onClick={() => props.onOk(host)}>Далее</Button>
+        <Button variant='contained' color='primary' onClick={() => props.onOk({ host })}>Далее</Button>
       </DialogActions>
     </React.Fragment>
   )

@@ -6,18 +6,18 @@ import { getSelectData } from '../../../service/api/variableAPI';
 import { useSnackbar } from 'notistack';
 import useDebouncedSearch from '../../common/hooks/useDebouncedSearch';
 
-const useSearchDatas = (dataSource, host, query, captionField, enqueueSnackbar) => 
-  useDebouncedSearch(text => getSelectData(dataSource, host, query, captionField, text)
+const useSearchDatas = (dataSource, context, query, captionField, enqueueSnackbar) => 
+  useDebouncedSearch(text => getSelectData(dataSource, context, query, captionField, text)
     .catch(error => enqueueSnackbar(`Ошибка загрузки набора данных: ${error}`, { variant: 'error' })))
 
 export default function SelectInputVariable(props) {
   const dataSource = props.report.dataSources.find(x => x.name === props.variable.data.dataSet.data.dataSourceName);
-  const host = props.host;
+  const context = props.context;
   const query = props.variable.data.dataSet.data.query;
   const captionField = props.variable.data.captionField;
 
   const { enqueueSnackbar } = useSnackbar();
-  const { inputText, setInputText, searchResults } = useSearchDatas(dataSource, host, query, captionField, enqueueSnackbar);
+  const { inputText, setInputText, searchResults } = useSearchDatas(dataSource, context, query, captionField, enqueueSnackbar);
 
   const handleChange = (e, value) => {
     props.onChange({...props.variable, value: value });

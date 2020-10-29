@@ -9,7 +9,7 @@ export default function ReportRunForm(props) {
       <CardHeader title={'Укажите параметры'} />      
 
       <CardContent>
-        <ReportRunInputVariables report={props.report} host={props.host} formik={formik} />
+        <ReportRunInputVariables report={props.report} context={props.context} formik={formik} />
       </CardContent>
 
       <CardActions>
@@ -19,7 +19,11 @@ export default function ReportRunForm(props) {
       </CardActions>
     </Card>;
   
-  const inputVariableForm = useInputVariables(props.report, props.onSubmit, content);
+  const handleSubmit = (variableValues) => {
+    props.onSubmit({ ...props.context, variableValues})
+  }
+
+  const inputVariableForm = useInputVariables(props.report, handleSubmit, content);
 
   return (
     <React.Fragment>

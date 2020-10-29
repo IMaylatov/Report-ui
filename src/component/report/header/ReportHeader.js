@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Button, Grid, Box } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import LogoIcon from '../../common/icons/LogoIcon';
 import { AuthConsumer } from '../../../utils/providers/authProvider';
-import UserHeader from '../../common/UserHeader';
+import UserHeader from '../../user/UserHeader';
 
 const useStyles = makeStyles((theme) => ({
   header: {

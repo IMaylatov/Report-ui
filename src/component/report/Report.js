@@ -16,7 +16,7 @@ import { Drawer, Toolbar } from '@material-ui/core';
 import ReportExplorer from './ReportExplorer';
 import { useSnackbar } from 'notistack';
 import CircularProgressBackdrop from '../common/CircularProgressBackdrop';
-import ReportHostDialog from '../host/InputHostDialog';
+import InputHostDialog from '../host/InputHostDialog';
 
 const drawerWidth = 240;
 
@@ -125,8 +125,8 @@ export default function Report(props) {
       break;
   }
       
-  const sendRunReport = (host, variables) => {
-    runReport(formik.values.report, host, formik.values.template, variables)
+  const sendRunReport = (context) => {
+    runReport(formik.values.report, formik.values.template, context)
       .then(res => res.blob())
       .then((blob) => {
         setOpenDialog(false);
@@ -138,32 +138,32 @@ export default function Report(props) {
       });
   } 
 
-  const handleInputVariables = (host, variables) => {
+  const handleInputVariables = (context) => {
     setDialogContent(<ReportRunProcess />);
-    sendRunReport(host, variables);
+    sendRunReport(context);
   }
 
-  const handleInputVariablesDialog = (host) => {
+  const handleInputVariablesDialog = (context) => {
     if (formik.values.report.variables.length > 0) {
       setDialogContent(<ReportRunDialog 
         report={formik.values.report}
-        host={host}
-        onOk={(variables) => handleInputVariables(host, variables)}
+        context={context}
+        onOk={handleInputVariables}
         onCancel={(e) => setOpenDialog(false)}/>);
       setOpenDialog(true);
     } else {      
-      sendRunReport(host, []);
+      sendRunReport(context);
     }
   }
 
   const handleRunClick = (e) => {
     if (formik.values.report.dataSources.filter(d => d.data.connectionType === CONNECTION_TYPE_HOST.name).length > 0) {
-      setDialogContent(<ReportHostDialog
-        onOk={(host) => handleInputVariablesDialog(host)}
+      setDialogContent(<InputHostDialog
+        onOk={handleInputVariablesDialog}
         onCancel={(e) => setOpenDialog(false)}/>);
       setOpenDialog(true);
     } else {
-      handleInputVariablesDialog();
+      handleInputVariablesDialog({});
     }
   }
 

@@ -10,7 +10,7 @@ export default function ReportRunDialog(props) {
       <CloseDialogTitle onClose={props.onCancel}>Укажите параметры</CloseDialogTitle>
       
       <DialogContent>
-        <ReportRunInputVariables report={props.report} host={props.host} formik={formik} />
+        <ReportRunInputVariables report={props.report} context={props.context} formik={formik} />
       </DialogContent>
 
       <DialogActions>
@@ -18,7 +18,11 @@ export default function ReportRunDialog(props) {
       </DialogActions>
     </React.Fragment>;
   
-  const inputVariableForm = useInputVariables(props.report, props.onOk, content);
+  const handleSubmit = (variableValues) => {
+    props.onOk({ ...props.context, variableValues})
+  }
+
+  const inputVariableForm = useInputVariables(props.report, handleSubmit, content);
 
   return (
     <React.Fragment>

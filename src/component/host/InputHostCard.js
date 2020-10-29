@@ -9,7 +9,7 @@ import {
   TextField
 } from '@material-ui/core';
 
-export default function ReportHostDialog(props) {
+export default function InputHostCard(props) {
   const [host, setHost] = useState('');
 
   return (
@@ -25,7 +25,7 @@ export default function ReportHostDialog(props) {
 
       <CardActions>
         <Box width={1} display="flex" justifyContent="flex-end">
-          <Button variant='contained' color='primary' onClick={() => props.onOk(host)}>Далее</Button>
+          <Button variant='contained' color='primary' onClick={() => props.onOk({ ...props.context, host })}>Далее</Button>
         </Box>
       </CardActions>
     </Card>

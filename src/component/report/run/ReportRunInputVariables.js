@@ -6,7 +6,7 @@ export default function ReportRunInputVariables(props) {
     <React.Fragment>
       {props.formik.values.map((variable, i) => {
         return (
-          <InputVariable key={i} report={props.report} host={props.host}
+          <InputVariable key={i} report={props.report} context={props.context}
             variable={variable} 
             onChange={(value) => props.formik.setFieldValue(`[${i}]`, value)}
             name={`[${i}]`}/>

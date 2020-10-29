@@ -3,7 +3,7 @@ import useTreeView from './useTreeView';
 import useDialog from './useDialog';
 import useOperation from './useOperation';
 import useContextMenu from './useContextMenu';
-import useInputVariables from './useInputVariables';
+import useInputVariables from '../../variable/useInputVariables';
 import useDebouncedSearch from './useDebouncedSearch';
 
 export {

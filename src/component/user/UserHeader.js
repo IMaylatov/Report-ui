@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grid, IconButton } from '@material-ui/core';
-import LogoutIcon from './icons/LogoutIcon';
+import LogoutIcon from '../common/icons/LogoutIcon';
 
 const useStyles = makeStyles((theme) => ({
   loginLink: {

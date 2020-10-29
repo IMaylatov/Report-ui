@@ -38,23 +38,12 @@ export const deleteReport = (id) => {
     });
 }
 
-const getReportContext = (host, variables) => {
-  return JSON.stringify(
-    {
-      host,
-      variableValues: JSON.stringify(variables.map(variable => { 
-        return { name: variable.name, value: variable.value } 
-      }))
-    }
-  );
-}
-
-export const runReport = (report, host, template, variables) => {
+export const runReport = (report, template, context) => {
   const formData = new FormData();
   
   formData.append('report', JSON.stringify(report));
   formData.append('template', template.data);
-  formData.append('context', getReportContext(host, variables));
+  formData.append('context', JSON.stringify(context));
 
   return fetchApi('/api/run/report', {
       method: 'POST',
@@ -62,10 +51,10 @@ export const runReport = (report, host, template, variables) => {
     });
 }
 
-export const runReportById = (reportId, host, variables) => {
+export const runReportById = (reportId, context) => {
   const formData = new FormData();
   
-  formData.append('context', getReportContext(host, variables));
+  formData.append('context', JSON.stringify(context));
 
   return fetchApi(`/api/run/report/${reportId}`, {
       method: 'POST',

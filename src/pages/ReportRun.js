@@ -10,12 +10,13 @@ import ReportRunProcess from '../component/report/run/ReportRunProcess';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import ReportHostCard from '../component/host/InputHostCard';
+import { CONNECTION_TYPE_HOST } from '../utils/const/reportConst';
 
 export default function ReportRun(props) {
   const { reportId } = useParams();
 
-  const [report, setReport] = useState(null); 
-  const [host, setHost] = useState(null); 
+  const [report, setReport] = useState(null);
+  const [context, setContext] = useState(null);
   const history = useHistory();
   
   const [dialog, { setDialogContent, setOpenDialog }] = useDialog({maxWidthDialog: undefined});
@@ -23,16 +24,17 @@ export default function ReportRun(props) {
 
   useEffect(() => {
     getReportById(reportId)
-      .then(report => setReport(report))
+      .then(setReport)
       .catch(error => {
         history.push('/error');
       });
+         
   }, [reportId, history]);
 
-  const handleSubmit = (variables) => {
+  const handleSubmit = (context) => {
     setDialogContent(<ReportRunProcess />);
     setOpenDialog(true);
-    runReportById(report.id, host, variables)
+    runReportById(report.id, context)
       .then(res => res.blob())
       .then((blob) => {
         setOpenDialog(false);
@@ -44,23 +46,25 @@ export default function ReportRun(props) {
       });
   }
 
+  let isHost = report?.dataSources.filter(d => d.data.connectionType === CONNECTION_TYPE_HOST.name).length > 0;
+
   return (
     <React.Fragment>
       <ReportHeader title='Отчеты'/>
       <Toolbar />
 
-      {!host &&
+      {isHost && !context?.host &&
         <Container maxWidth="sm">
           <Box m={2}>
-            <ReportHostCard onOk={(host) => setHost(host)}/>
+            <ReportHostCard onOk={setContext}/>
           </Box>
         </Container>
       }
 
-      {report && host &&
+      {report && (!isHost || context?.host) &&
         <Container maxWidth="sm">
           <Box m={2}>
-            <ReportRunCard report={report} host={host} onSubmit={handleSubmit}/>
+            <ReportRunCard report={report} context={context} onSubmit={handleSubmit}/>
           </Box>
         </Container>
       }
