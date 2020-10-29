@@ -23,6 +23,7 @@ import { SilentRenew } from './pages/auth/SilentRenew';
 import { PrivateRoute } from './utils/privateRoute';
 import { AuthProvider } from './utils/providers/authProvider';
 import SignInHost from './pages/auth/SignInHost';
+import { Register } from './pages/auth/Register';
 
 function App() {
   const notistackRef = React.createRef();
@@ -44,6 +45,7 @@ function App() {
               <Route exact path="/signin-oidc" component={Callback} />
               <Route exact path="/signin-host" component={SignInHost} />
               <Route exact path="/logout/callback" component={LogoutCallback} />
+              <Route exact path="/register" component={Register} />
               <Route exact path="/silentrenew" component={SilentRenew} />
               
               <Route

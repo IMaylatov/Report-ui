@@ -1,5 +1,6 @@
 import { IDENTITY_CONFIG } from "../utils/const/authConst";
 import { UserManager, WebStorageStateStore, Log, User } from "oidc-client";
+import { getUserById, addUser } from './api/userApi';
 
 export default class AuthService {
     UserManager;
@@ -24,9 +25,17 @@ export default class AuthService {
 
     signinRedirectCallback = () => {
       this.UserManager.signinRedirectCallback().then(() => {
-        const redirectUri = localStorage.getItem("redirectUri");
-        localStorage.removeItem("redirectUri");
-        window.location.replace(redirectUri);
+        const oidcStorage = JSON.parse(sessionStorage.getItem(`oidc.user:${process.env.REACT_APP_AUTH_URL}:${process.env.REACT_APP_IDENTITY_CLIENT_ID}`))
+        getUserById(oidcStorage.profile.sub)
+          .then(res => {
+            if (res.status !== 404) {
+              const redirectUri = localStorage.getItem("redirectUri");
+              localStorage.removeItem("redirectUri");
+              window.location.replace(redirectUri);
+            } else {
+              window.location.replace("/register");
+            }
+          })
       });
     };
 
@@ -102,5 +111,19 @@ export default class AuthService {
       const redirectUri = localStorage.getItem("redirectUri");
       localStorage.removeItem("redirectUri");
       window.location.replace(redirectUri);
+    }
+
+    register = () => {
+      const oidcStorage = JSON.parse(sessionStorage.getItem(`oidc.user:${process.env.REACT_APP_AUTH_URL}:${process.env.REACT_APP_IDENTITY_CLIENT_ID}`))
+      const user = {
+        id: oidcStorage.profile.sub,
+        name: oidcStorage.profile.name
+      }
+      addUser(user)
+        .then(user => {
+          const redirectUri = localStorage.getItem("redirectUri");
+          localStorage.removeItem("redirectUri");
+          window.location.replace(redirectUri);
+        })      
     }
 }
