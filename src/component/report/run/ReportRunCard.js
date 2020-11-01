@@ -6,7 +6,7 @@ import ReportRunInputVariables from './ReportRunInputVariables';
 export default function ReportRunForm(props) {
   const content = (formik) =>
     <Card>
-      <CardHeader title={'Укажите параметры'} />      
+      <CardHeader title={props.report.name} />      
 
       <CardContent>
         <ReportRunInputVariables report={props.report} context={props.context} formik={formik} />

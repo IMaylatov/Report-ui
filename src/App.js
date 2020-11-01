@@ -16,13 +16,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { SnackbarProvider } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseButton from './component/common/icons/CloseIcon';
-import ErrorBoundary from './utils/boundary/errorBoundary';
 import { Callback } from './pages/auth/Callback';
 import { LogoutCallback } from './pages/auth/LogoutCallback';
 import { SilentRenew } from './pages/auth/SilentRenew';
 import { PrivateRoute } from './utils/privateRoute';
 import { AuthProvider } from './utils/providers/authProvider';
-import SignInHost from './pages/auth/SignInHost';
+import SignInStTicket from './pages/auth/SignInStTicket';
 import { Register } from './pages/auth/Register';
 
 function App() {
@@ -43,7 +42,7 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/signin-oidc" component={Callback} />
-              <Route exact path="/signin-host" component={SignInHost} />
+              <Route exact path="/signin-stTicket" component={SignInStTicket} />
               <Route exact path="/logout/callback" component={LogoutCallback} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/silentrenew" component={SilentRenew} />
@@ -56,12 +55,8 @@ function App() {
                       <Redirect to="/reports" /> 
                     )
                 }}
-              />          
-              <Route exact path="/reports">              
-                <ErrorBoundary>
-                  <Reports />
-                </ErrorBoundary>
-              </Route>
+              />    
+              <PrivateRoute exact path="/reports" component={Reports} />
               <PrivateRoute exact path="/reports/add" component={AddReport} />
               <PrivateRoute exact path="/reports/:reportId" component={EditReport} />
               <PrivateRoute exact path="/reports/:reportId/run" component={ReportRun} />

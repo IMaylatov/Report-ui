@@ -5,6 +5,7 @@ const AuthContext = React.createContext({
     signinRedirectCallback: () => ({}),
     logout: () => ({}),
     signoutRedirectCallback: () => ({}),
+    isAuthenticatedIdentityUser: () => ({}),
     isAuthenticated: () => ({}),
     signinRedirect: () => ({}),
     signinSilentCallback: () => ({}),

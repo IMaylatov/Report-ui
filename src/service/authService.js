@@ -2,6 +2,10 @@ import { IDENTITY_CONFIG } from "../utils/const/authConst";
 import { UserManager, WebStorageStateStore, Log, User } from "oidc-client";
 import { getUserById, addUser } from './api/userApi';
 
+export const isIdentityScheme = () => {
+  return IDENTITY_CONFIG.schemes.includes(IDENTITY_CONFIG.identityScheme);
+}
+
 export default class AuthService {
     UserManager;
 
@@ -44,13 +48,13 @@ export default class AuthService {
       if (user) {
         return user;
       }
-      const lsStUser = localStorage.getItem('st.user');
-      if (lsStUser) {
-        const stUser = JSON.parse(lsStUser);
+      const stTicket = localStorage.getItem('stTicket');
+      if (stTicket) {
+        const stTicketDecoded = JSON.parse(atob(stTicket));
         user = new User({
           id_token: '',
           profile: {
-            name: stUser.name
+            name: stTicketDecoded.name
           }
         });
       }
@@ -68,11 +72,18 @@ export default class AuthService {
       this.UserManager.signinRedirect({});
     };
 
-    isAuthenticated = () => {
+    isAuthenticatedIdentityUser = () => {
       const oidcStorage = JSON.parse(sessionStorage.getItem(`oidc.user:${process.env.REACT_APP_AUTH_URL}:${process.env.REACT_APP_IDENTITY_CLIENT_ID}`))
-      const stUser = localStorage.getItem('st.user');
+      return (!!oidcStorage && !!oidcStorage.id_token);
+    };
 
-      return (!!oidcStorage && !!oidcStorage.id_token) || stUser;
+    isAuthenticated = () => {
+      if (this.isAuthenticatedIdentityUser()) {
+        return true;
+      } else {
+        const stTicket = localStorage.getItem('stTicket');
+        return !!stTicket;
+      }
     };
 
     signinSilent = () => {
@@ -93,10 +104,15 @@ export default class AuthService {
     };
 
     logout = () => {
-      this.UserManager.signoutRedirect({
-          id_token_hint: localStorage.getItem("id_token")
-      });
-      this.UserManager.clearStaleState();
+      if (this.isAuthenticatedIdentityUser()) {
+        this.UserManager.signoutRedirect({
+            id_token_hint: localStorage.getItem("id_token")
+        });
+        this.UserManager.clearStaleState();
+      } else {
+        localStorage.clear();
+        window.location.replace(process.env.REACT_APP_PUBLIC_URL);
+      }
     };
 
     signoutRedirectCallback = () => {

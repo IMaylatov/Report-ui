@@ -19,13 +19,13 @@ export function updateOptions(options) {
     return update;
   }
   
-  const stUser = JSON.parse(localStorage.getItem('st.user'));
-  const stHost = stUser?.host;
+  const stTicket = localStorage.getItem('stTicket');
 
-  if (stHost) {
+  if (stTicket) {
+
     update.headers = {
       ...update.headers,
-      Authorization: `StHost ${stHost}`,
+      Authorization: `StTicket ${stTicket}`,
     };
   }
 

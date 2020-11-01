@@ -8,6 +8,7 @@ import { useSnackbar } from 'notistack';
 import CircularProgressBackdrop from '../component/common/CircularProgressBackdrop';
 import useDebouncedSearch from '../component/common/hooks/useDebouncedSearch';
 import SearchIcon from '../component/common/icons/SearchIcon';
+import { AuthConsumer } from '../utils/providers/authProvider';
 
 const useSearchReports = (enqueueSnackbar) => 
   useDebouncedSearch(text => getReports(text)
@@ -56,9 +57,17 @@ export default function Reports() {
                   ),
                 }}/>
             </Grid>
-            <Grid item xs={12}>
-              <Button component={Link} to='/reports/add' variant="contained" color='primary'>Добавить отчет</Button>
-            </Grid>            
+            <AuthConsumer>
+              {({ isAuthenticatedIdentityUser }) => {
+                  if (isAuthenticatedIdentityUser()){
+                    return (
+                      <Grid item xs={12}>
+                        <Button component={Link} to='/reports/add' variant="contained" color='primary'>Добавить отчет</Button>
+                      </Grid>
+                    )
+                  }
+              }}
+            </AuthConsumer>
             <Grid item xs={12}>
               <ReportTable reports={searchResults.result ? searchResults.result : []} onDeleteReport={handleReportDelete}/>             
               {searchResults.loading &&

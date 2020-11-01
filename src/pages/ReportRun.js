@@ -11,25 +11,29 @@ import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import ReportHostCard from '../component/host/InputHostCard';
 import { CONNECTION_TYPE_HOST } from '../utils/const/reportConst';
+import CircularProgressBackdrop from '../component/common/CircularProgressBackdrop';
 
 export default function ReportRun(props) {
   const { reportId } = useParams();
+  const stTicket = localStorage.getItem('stTicket');
+  const host = stTicket ? JSON.parse(atob(stTicket)).host : null;
 
   const [report, setReport] = useState(null);
-  const [context, setContext] = useState(null);
+  const [context, setContext] = useState(host ? { host } : null);
   const history = useHistory();
   
   const [dialog, { setDialogContent, setOpenDialog }] = useDialog({maxWidthDialog: undefined});
+  const [isOpenBackdrop, setIsOpenBackdrop] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     getReportById(reportId)
       .then(setReport)
       .catch(error => {
-        history.push('/error');
-      });
-         
-  }, [reportId, history]);
+        enqueueSnackbar(`Ошибка загрузки отчета: ${error}`, { variant: 'error' });
+      })
+      .finally(() => setIsOpenBackdrop(false));
+  }, [reportId, history, enqueueSnackbar]);
 
   const handleSubmit = (context) => {
     setDialogContent(<ReportRunProcess />);
@@ -70,6 +74,8 @@ export default function ReportRun(props) {
       }
 
       {dialog}
+      
+      <CircularProgressBackdrop  open={isOpenBackdrop}/>
     </React.Fragment>
   );
 }

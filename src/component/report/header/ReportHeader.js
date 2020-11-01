@@ -27,7 +27,7 @@ export default function ReportHeader(props) {
     <AppBar elevation={0} className={classes.header}>
       <Toolbar>
         <Grid container direction='row' justify="space-between" alignItems="center">
-          <Grid item xs={10} container direction='row'>
+          <Grid item xs={9} container direction='row'>
             <Grid item>
               <Button
                 component={Link}
@@ -43,7 +43,7 @@ export default function ReportHeader(props) {
             {props.children}
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Box display="flex" justifyContent="flex-end">
               <AuthConsumer>
                 {({ isAuthenticated, getUser, signinRedirect, logout }) => {

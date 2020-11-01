@@ -1,4 +1,7 @@
 export const IDENTITY_CONFIG = {
+  schemes: process.env.REACT_APP_AUTH_SCHEMES,
+  identityScheme: 'Identity',
+  stTicketScheme: 'StTicket',
   authority: process.env.REACT_APP_AUTH_URL,
   client_id: process.env.REACT_APP_IDENTITY_CLIENT_ID,
   redirect_uri: process.env.REACT_APP_REDIRECT_URL,
